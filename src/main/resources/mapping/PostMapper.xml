@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whut.springbootshiro.mapper.PostMapper" >
+  <resultMap id="BaseResultMap" type="com.whut.springbootshiro.model.Post" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="cover" property="cover" jdbcType="VARCHAR" />
+    <result column="video_url" property="videoUrl" jdbcType="VARCHAR" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="look_num" property="lookNum" jdbcType="INTEGER" />
+    <result column="comment_num" property="commentNum" jdbcType="INTEGER" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="coin_num" property="coinNum" jdbcType="INTEGER" />
+    <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
+    <result column="share_num" property="shareNum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.whut.springbootshiro.model.Post" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, cover, video_url, tags, look_num, comment_num, like_num, coin_num, collect_num, 
+    share_num, status, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from post
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from post
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.whut.springbootshiro.model.Post" >
+    insert into post (id, title, cover, 
+      video_url, tags, look_num, 
+      comment_num, like_num, coin_num, 
+      collect_num, share_num, status, 
+      create_time, update_time, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, 
+      #{videoUrl,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{lookNum,jdbcType=INTEGER}, 
+      #{commentNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}, #{coinNum,jdbcType=INTEGER}, 
+      #{collectNum,jdbcType=INTEGER}, #{shareNum,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.whut.springbootshiro.model.Post" useGeneratedKeys="true" keyColumn="id">
+    insert into post
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="cover != null" >
+        cover,
+      </if>
+      <if test="videoUrl != null" >
+        video_url,
+      </if>
+      <if test="tags != null" >
+        tags,
+      </if>
+      <if test="lookNum != null" >
+        look_num,
+      </if>
+      <if test="commentNum != null" >
+        comment_num,
+      </if>
+      <if test="likeNum != null" >
+        like_num,
+      </if>
+      <if test="coinNum != null" >
+        coin_num,
+      </if>
+      <if test="collectNum != null" >
+        collect_num,
+      </if>
+      <if test="shareNum != null" >
+        share_num,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null" >
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="lookNum != null" >
+        #{lookNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="coinNum != null" >
+        #{coinNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null" >
+        #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="shareNum != null" >
+        #{shareNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whut.springbootshiro.model.Post" >
+    update post
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null" >
+        video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="lookNum != null" >
+        look_num = #{lookNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        comment_num = #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="coinNum != null" >
+        coin_num = #{coinNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null" >
+        collect_num = #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="shareNum != null" >
+        share_num = #{shareNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.whut.springbootshiro.model.Post" >
+    update post
+    set title = #{title,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      look_num = #{lookNum,jdbcType=INTEGER},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      like_num = #{likeNum,jdbcType=INTEGER},
+      coin_num = #{coinNum,jdbcType=INTEGER},
+      collect_num = #{collectNum,jdbcType=INTEGER},
+      share_num = #{shareNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whut.springbootshiro.model.Post" >
+    update post
+    set title = #{title,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      look_num = #{lookNum,jdbcType=INTEGER},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      like_num = #{likeNum,jdbcType=INTEGER},
+      coin_num = #{coinNum,jdbcType=INTEGER},
+      collect_num = #{collectNum,jdbcType=INTEGER},
+      share_num = #{shareNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

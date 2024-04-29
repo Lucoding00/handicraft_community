@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whut.springbootshiro.mapper.PostAttachmentMapper">
+    <resultMap id="BaseResultMap" type="com.whut.springbootshiro.model.PostAttachment">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="post_id" property="postId" jdbcType="INTEGER"/>
+        <result column="attachment_url" property="attachmentUrl" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, post_id, attachment_url, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from post_attachment
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from post_attachment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.whut.springbootshiro.model.PostAttachment">
+    insert into post_attachment (id, post_id, attachment_url, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{attachmentUrl,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.whut.springbootshiro.model.PostAttachment">
+        insert into post_attachment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="postId != null">
+                post_id,
+            </if>
+            <if test="attachmentUrl != null">
+                attachment_url,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="postId != null">
+                #{postId,jdbcType=INTEGER},
+            </if>
+            <if test="attachmentUrl != null">
+                #{attachmentUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch">
+        INSERT INTO post_attachment (post_id, attachment_url, create_time, update_time) VALUES
+        <foreach collection="list" separator="," item="item">
+            (#{postId},#{item},NOW(),NOW())
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.whut.springbootshiro.model.PostAttachment">
+        update post_attachment
+        <set>
+            <if test="postId != null">
+                post_id = #{postId,jdbcType=INTEGER},
+            </if>
+            <if test="attachmentUrl != null">
+                attachment_url = #{attachmentUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.whut.springbootshiro.model.PostAttachment">
+    update post_attachment
+    set post_id = #{postId,jdbcType=INTEGER},
+      attachment_url = #{attachmentUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

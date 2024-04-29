@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whut.springbootshiro.mapper.PersonalMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.whut.springbootshiro.model.PersonalMessage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="send_user_id" property="sendUserId" jdbcType="INTEGER" />
+    <result column="send_message" property="sendMessage" jdbcType="VARCHAR" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="is_read" property="isRead" jdbcType="BIT" />
+    <result column="recipient_id" property="recipientId" jdbcType="INTEGER" />
+    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, send_user_id, send_message, send_time, is_read, recipient_id, receive_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from personal_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from personal_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.whut.springbootshiro.model.PersonalMessage" >
+    insert into personal_message (id, send_user_id, send_message, 
+      send_time, is_read, recipient_id, 
+      receive_time)
+    values (#{id,jdbcType=INTEGER}, #{sendUserId,jdbcType=INTEGER}, #{sendMessage,jdbcType=VARCHAR}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{isRead,jdbcType=BIT}, #{recipientId,jdbcType=INTEGER}, 
+      #{receiveTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.whut.springbootshiro.model.PersonalMessage" >
+    insert into personal_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sendUserId != null" >
+        send_user_id,
+      </if>
+      <if test="sendMessage != null" >
+        send_message,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="isRead != null" >
+        is_read,
+      </if>
+      <if test="recipientId != null" >
+        recipient_id,
+      </if>
+      <if test="receiveTime != null" >
+        receive_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sendUserId != null" >
+        #{sendUserId,jdbcType=INTEGER},
+      </if>
+      <if test="sendMessage != null" >
+        #{sendMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRead != null" >
+        #{isRead,jdbcType=BIT},
+      </if>
+      <if test="recipientId != null" >
+        #{recipientId,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null" >
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whut.springbootshiro.model.PersonalMessage" >
+    update personal_message
+    <set >
+      <if test="sendUserId != null" >
+        send_user_id = #{sendUserId,jdbcType=INTEGER},
+      </if>
+      <if test="sendMessage != null" >
+        send_message = #{sendMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRead != null" >
+        is_read = #{isRead,jdbcType=BIT},
+      </if>
+      <if test="recipientId != null" >
+        recipient_id = #{recipientId,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null" >
+        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whut.springbootshiro.model.PersonalMessage" >
+    update personal_message
+    set send_user_id = #{sendUserId,jdbcType=INTEGER},
+      send_message = #{sendMessage,jdbcType=VARCHAR},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      is_read = #{isRead,jdbcType=BIT},
+      recipient_id = #{recipientId,jdbcType=INTEGER},
+      receive_time = #{receiveTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

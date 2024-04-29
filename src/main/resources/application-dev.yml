@@ -1,0 +1,40 @@
+# 数据库配置
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/handicraft_community?useSSL=false&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+
+
+
+# mybatis-plus的配置
+mybatis-plus:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.whut.springbootshiro.model
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#pageheler的相关的配置
+pagehelper:
+  params: count=countSql
+  support-methods-arguments: true
+  reasonable: true
+  helper-dialect: mysql
+
+#上传文件的本机地址的配置 对应与config文件夹下面的ImgHandlerConfig
+file-upload-path: F:\\uploadImg\\
+
+# 默认排除权限限制的字符串路由设置
+router:
+  exclude:
+    - /user/identity/login
+    - /imgs/**
+    - /user/identity/captcha
+    - /user/identity/normalUserRegister
+
+
+
+
+
+

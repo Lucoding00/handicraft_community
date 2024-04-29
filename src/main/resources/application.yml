@@ -1,0 +1,9 @@
+# 端口的配置
+server:
+  port: 8081
+swagger:
+  enabled: true
+# dev的开发环境
+spring:
+  profiles:
+    active: dev
