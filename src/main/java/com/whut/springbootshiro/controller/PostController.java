@@ -1,6 +1,6 @@
 package com.whut.springbootshiro.controller;
 
-import com.whut.springbootshiro.form.InterestForm;
+import com.whut.springbootshiro.eunm.PostStatusEnum;
 import com.whut.springbootshiro.form.PostForm;
 import com.whut.springbootshiro.query.ReviewQuery;
 import com.whut.springbootshiro.service.PostService;
@@ -35,6 +35,17 @@ public class PostController {
         return postService.add(postForm);
     }
 
+    /**
+     * 修改帖子
+     *
+     * @param postForm 帖子
+     * @return 返回值
+     */
+    @PostMapping("update")
+    public Object update(PostForm postForm) {
+        return postService.update(postForm);
+    }
+
 
     /**
      * 获取发布的帖子列表
@@ -46,15 +57,33 @@ public class PostController {
         return postService.reviewPage(reviewQuery);
     }
 
+    /**
+     * 管理员审核当前的帖子信息，并同意
+     *
+     * @return 返回值
+     */
+    @PostMapping("auditPostAgree")
+    public Object auditPostAgree(int postId) {
+        return postService.auditPost(postId, PostStatusEnum.AGREE);
+    }
 
+    /**
+     * 管理员审核当前的帖子信息，并不同意
+     *
+     * @return 返回值
+     */
+    @PostMapping("auditPostDisagree")
+    public Object auditPostDisagree(int postId) {
+        return postService.auditPost(postId, PostStatusEnum.DISAGREE);
+    }
 
-
-
-
-
-
-
-
-
-
+    /**
+     * 软删除帖子
+     *
+     * @return 返回值
+     */
+    @PostMapping("deletePost")
+    public Object deletePost(int postId) {
+        return postService.auditPost(postId, PostStatusEnum.REMOVE);
+    }
 }

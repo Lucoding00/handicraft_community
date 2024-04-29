@@ -9,4 +9,8 @@ import lombok.Data;
 @Data
 public class ReviewQuery extends Query {
     private String title;
+
+    private String status;
+
+    private String userId;
 }

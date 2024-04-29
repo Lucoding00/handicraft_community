@@ -1,6 +1,10 @@
 package com.whut.springbootshiro.mapper;
 
 import com.whut.springbootshiro.model.PostComment;
+import com.whut.springbootshiro.query.PostCommentsQuery;
+import com.whut.springbootshiro.vo.PostCommentVo;
+
+import java.util.List;
 
 public interface PostCommentMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +18,6 @@ public interface PostCommentMapper {
     int updateByPrimaryKeySelective(PostComment record);
 
     int updateByPrimaryKey(PostComment record);
+
+    List<PostCommentVo> selectList(PostCommentsQuery postCommentsQuery);
 }

@@ -11,7 +11,7 @@ public class PostComment {
 
     private String comment;
 
-    private Integer parentId;
+    private Integer toUserId;
 
     private Integer upNum;
 
@@ -53,12 +53,12 @@ public class PostComment {
         this.comment = comment == null ? null : comment.trim();
     }
 
-    public Integer getParentId() {
-        return parentId;
+    public Integer getToUserId() {
+        return toUserId;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
+    public void setToUserId(Integer toUserId) {
+        this.toUserId = toUserId;
     }
 
     public Integer getUpNum() {

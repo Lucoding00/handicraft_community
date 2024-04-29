@@ -21,6 +21,9 @@
     delete from post_attachment
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteBatchByPostId">
+        delete from post_attachment where post_id=#{id}
+    </delete>
     <insert id="insert" parameterType="com.whut.springbootshiro.model.PostAttachment">
     insert into post_attachment (id, post_id, attachment_url, 
       create_time, update_time)

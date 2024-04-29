@@ -6,14 +6,25 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="post_id" property="postId" jdbcType="INTEGER" />
     <result column="comment" property="comment" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="to_user_id" property="toUserId" jdbcType="INTEGER" />
+    <result column="up_num" property="upNum" jdbcType="INTEGER" />
+    <result column="down_num" property="downNum" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.whut.springbootshiro.vo.PostCommentVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="post_id" property="postId" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="to_user_id" property="toUserId" jdbcType="INTEGER" />
     <result column="up_num" property="upNum" jdbcType="INTEGER" />
     <result column="down_num" property="downNum" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, post_id, comment, parent_id, up_num, down_num, create_time, update_time
+    id, user_id, post_id, comment, to_user_id, up_num, down_num, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -21,17 +32,23 @@
     from post_comment
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectList" resultMap="BaseResultMapVo">
+    select <include refid="Base_Column_List"/>
+    from post_comment
+    where post_id = #{postId}
+    and to_user_id = #{toUserId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from post_comment
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.whut.springbootshiro.model.PostComment" >
     insert into post_comment (id, user_id, post_id, 
-      comment, parent_id, up_num, 
+      comment, to_user_id, up_num, 
       down_num, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, 
-      #{comment,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{upNum,jdbcType=INTEGER}, 
+      #{comment,jdbcType=VARCHAR}, #{toUserId,jdbcType=INTEGER}, #{upNum,jdbcType=INTEGER},
       #{downNum,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -50,8 +67,8 @@
       <if test="comment != null" >
         comment,
       </if>
-      <if test="parentId != null" >
-        parent_id,
+      <if test="toUserId != null" >
+        to_user_id,
       </if>
       <if test="upNum != null" >
         up_num,
@@ -79,8 +96,8 @@
       <if test="comment != null" >
         #{comment,jdbcType=VARCHAR},
       </if>
-      <if test="parentId != null" >
-        #{parentId,jdbcType=INTEGER},
+      <if test="toUserId != null" >
+        #{toUserId,jdbcType=INTEGER},
       </if>
       <if test="upNum != null" >
         #{upNum,jdbcType=INTEGER},
@@ -108,8 +125,8 @@
       <if test="comment != null" >
         comment = #{comment,jdbcType=VARCHAR},
       </if>
-      <if test="parentId != null" >
-        parent_id = #{parentId,jdbcType=INTEGER},
+      <if test="toUserId != null" >
+        to_user_id = #{toUserId,jdbcType=INTEGER},
       </if>
       <if test="upNum != null" >
         up_num = #{upNum,jdbcType=INTEGER},
@@ -131,7 +148,7 @@
     set user_id = #{userId,jdbcType=INTEGER},
       post_id = #{postId,jdbcType=INTEGER},
       comment = #{comment,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=INTEGER},
+      to_user_id = #{toUserId,jdbcType=INTEGER},
       up_num = #{upNum,jdbcType=INTEGER},
       down_num = #{downNum,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

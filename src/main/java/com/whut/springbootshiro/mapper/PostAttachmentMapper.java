@@ -19,4 +19,6 @@ public interface PostAttachmentMapper {
     int updateByPrimaryKey(PostAttachment record);
 
     int insertBatch(@Param("postId") Integer id,@Param("list") List<String> attachmentUrls);
+
+    int deleteBatchByPostId(Integer id);
 }
