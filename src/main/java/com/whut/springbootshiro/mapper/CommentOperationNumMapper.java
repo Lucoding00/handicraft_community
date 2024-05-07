@@ -14,4 +14,6 @@ public interface CommentOperationNumMapper {
     int updateByPrimaryKeySelective(CommentOperationNum record);
 
     int updateByPrimaryKey(CommentOperationNum record);
+
+    CommentOperationNum selectByUserIdAndCommentIdAndStatus(Integer userId, Integer commentId);
 }

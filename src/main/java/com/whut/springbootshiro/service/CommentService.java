@@ -14,4 +14,8 @@ public interface CommentService {
     Result deleteComment(int commentId);
 
     Result postComments(PostCommentsQuery postCommentsQuery);
+
+    Result upComment(Integer commentId);
+
+    Result downComment(Integer commentId);
 }

@@ -16,5 +16,5 @@ public class CommentForm {
 
     private String comment;
 
-    private Integer parentId;
+    private Integer toUserId;
 }

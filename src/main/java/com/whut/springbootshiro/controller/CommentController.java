@@ -1,7 +1,6 @@
 package com.whut.springbootshiro.controller;
 
 import com.whut.springbootshiro.form.CommentForm;
-import com.whut.springbootshiro.form.InterestForm;
 import com.whut.springbootshiro.query.PostCommentsQuery;
 import com.whut.springbootshiro.service.CommentService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,7 +58,25 @@ public class CommentController {
     }
 
 
+    /**
+     * 给帖子点赞
+     *
+     * @param commentId 评论id
+     * @return 返回值
+     */
+    @PostMapping("upComment")
+    public Object upComment(Integer commentId) {
+        return commentService.upComment(commentId);
+    }
 
-
-
+    /**
+     * 给帖子点踩
+     *
+     * @param commentId 评论id
+     * @return 返回值
+     */
+    @PostMapping("downComment")
+    public Object downComment(Integer commentId) {
+        return commentService.downComment(commentId);
+    }
 }

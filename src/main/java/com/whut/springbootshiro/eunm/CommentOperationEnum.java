@@ -1,19 +1,18 @@
 package com.whut.springbootshiro.eunm;
 
 /**
+ * 评论状态
+ *
  * @author Lei
- * @date 2024-04-29 0:08
+ * @since 2024-05-07 22:27
  */
-public enum PostStatusEnum {
-
-    PUBLISH("publish"),
-    AGREE("agree"),
-    DISAGREE("disagree"),
-    REMOVE("remove");
+public enum CommentOperationEnum {
+    UP("up"),
+    DOWN("down");
 
     private String value;
 
-    PostStatusEnum(String value) {
+    CommentOperationEnum(String value) {
         this.value = value;
     }
 

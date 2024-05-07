@@ -14,6 +14,8 @@ public enum CodeMsg {
     STATUS_IS_NOT_OK(4001007, "The current status is not available"),
     INSERT_POST_ERROR(4001008, "The post insert occur a error"),
     UPDATE_POST_ERROR(4001009, "The post update occur a error"),
+    UP_COMMENT_ERROR(4001010, "Not allowed to give up it to yourself ..."),
+    UP_REPEAT_COMMENT_ERROR(4001011, "Not allowed to repeat give up it to yourself ..."),
     ;
     public Integer code; // 业务码
     public String msg; // 业务消息

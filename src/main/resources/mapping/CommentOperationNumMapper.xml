@@ -16,6 +16,12 @@
     from comment_operation_num
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByUserIdAndCommentIdAndStatus"
+          resultType="com.whut.springbootshiro.model.CommentOperationNum">
+    select * from comment_operation_num
+    where user_id=#{userId} and
+    comment_id=#{commentId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from comment_operation_num
     where id = #{id,jdbcType=INTEGER}

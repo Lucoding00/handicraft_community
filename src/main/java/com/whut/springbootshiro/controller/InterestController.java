@@ -1,12 +1,8 @@
 package com.whut.springbootshiro.controller;
 
 import com.whut.springbootshiro.form.InterestForm;
-import com.whut.springbootshiro.form.UserAdminForm;
-import com.whut.springbootshiro.form.UserInfoForm;
 import com.whut.springbootshiro.query.InterestQuery;
-import com.whut.springbootshiro.query.UserAdminQuery;
 import com.whut.springbootshiro.service.InterestService;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
