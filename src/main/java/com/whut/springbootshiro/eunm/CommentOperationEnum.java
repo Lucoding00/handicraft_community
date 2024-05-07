@@ -8,6 +8,7 @@ package com.whut.springbootshiro.eunm;
  */
 public enum CommentOperationEnum {
     UP("up"),
+
     DOWN("down");
 
     private String value;

@@ -14,4 +14,8 @@ public interface PostOperationNumMapper {
     int updateByPrimaryKeySelective(PostOperationNum record);
 
     int updateByPrimaryKey(PostOperationNum record);
+
+    PostOperationNum selectByUserIdAndPostId(Integer userId, Integer postId);
+
+    PostOperationNum selectByUserIdAndPostIdAndStatus(Integer userId, Integer postId, String status);
 }

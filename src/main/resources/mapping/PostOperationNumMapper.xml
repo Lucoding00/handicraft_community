@@ -16,6 +16,18 @@
     from post_operation_num
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByUserIdAndPostId"
+          resultMap="BaseResultMap">
+    select * from post_operation_num
+    where post_id=#{postId}
+    and user_id=#{userId}
+  </select>
+  <select id="selectByUserIdAndPostIdAndStatus" resultMap="BaseResultMap">
+    select * from post_operation_num
+    where post_id=#{postId}
+    and user_id=#{userId}
+    and operation_type=#{status}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from post_operation_num
     where id = #{id,jdbcType=INTEGER}

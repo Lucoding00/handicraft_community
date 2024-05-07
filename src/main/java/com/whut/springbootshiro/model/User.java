@@ -60,4 +60,9 @@ public class User {
      * 更新时间
      */
     private Date updateTime;
+
+    /**
+     * 硬币数量
+     */
+    private Integer coinNum;
 }

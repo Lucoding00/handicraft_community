@@ -25,4 +25,6 @@ public interface UserMapper {
     int updateHeaderImg(Integer id, String img);
 
     List<User> selectList(UserAdminQuery userAdminQuery);
+
+    int updateCoinNum(Integer userId, int coinNum);
 }

@@ -36,4 +36,6 @@ public interface UserService {
     Result deleteUser(int userId);
 
     Result page(UserAdminQuery userAdminQuery);
+
+    Result recharge(int userId,int coinNum);
 }

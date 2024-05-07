@@ -129,4 +129,17 @@ public class UserIdentityController {
         return userService.unfreezeUser(userId);
     }
 
+
+    /**
+     * 用户充值
+     *
+     * @param userId 用户id
+     * @return 返回值
+     */
+    @PostMapping("recharge")
+    public Object recharge(int userId, int coinNum) {
+        return userService.recharge(userId, coinNum);
+    }
+
+
 }

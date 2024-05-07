@@ -162,6 +162,8 @@ public class UserServiceImpl implements UserService {
         Date date = new Date();
         user.setCreateTime(date);
         user.setUpdateTime(date);
+        // 默认100个币
+        user.setCoinNum(100);
         int result = userMapper.insertSelective(user);
         if (result > 0) {
             return new Result(CodeMsg.SUCCESS);
@@ -222,6 +224,7 @@ public class UserServiceImpl implements UserService {
         user.setStatus(UserStatusEnum.AVAILABLE.getValue());
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
+        user.setCoinNum(100);
         user.setRoleName(UserRoleEnum.ADMIN.getValue());
         BeanUtil.copyProperties(userAdminForm, user);
         int result = userMapper.insertSelective(user);
@@ -238,6 +241,7 @@ public class UserServiceImpl implements UserService {
         user.setStatus(UserStatusEnum.AVAILABLE.getValue());
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
+        user.setCoinNum(100);
         user.setRoleName(UserRoleEnum.USER.getValue());
         BeanUtil.copyProperties(userAdminForm, user);
         int result = userMapper.insertSelective(user);
@@ -263,5 +267,17 @@ public class UserServiceImpl implements UserService {
         Page<User> userPage = PageHelper.startPage(userAdminQuery.getPage(), userAdminQuery.getLimit());
         userMapper.selectList(userAdminQuery);
         return new Result(userPage.toPageInfo());
+    }
+
+    @Override
+    public Result recharge(int userId, int coinNum) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        Integer preCoinNum = user.getCoinNum();
+        int result = userMapper.updateCoinNum(userId, coinNum + preCoinNum);
+        if (result > 0) {
+            return new Result(CodeMsg.SUCCESS);
+        } else {
+            return new Result(CodeMsg.ERROR);
+        }
     }
 }

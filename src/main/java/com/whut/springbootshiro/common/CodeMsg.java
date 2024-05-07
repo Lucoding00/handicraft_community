@@ -16,6 +16,7 @@ public enum CodeMsg {
     UPDATE_POST_ERROR(4001009, "The post update occur a error"),
     UP_COMMENT_ERROR(4001010, "Not allowed to give up it to yourself ..."),
     UP_REPEAT_COMMENT_ERROR(4001011, "Not allowed to repeat give up it to yourself ..."),
+    COIN_NUM_IS_OK(4001012, "The number of coins is not enough to be inserted"),
     ;
     public Integer code; // 业务码
     public String msg; // 业务消息

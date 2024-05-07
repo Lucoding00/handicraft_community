@@ -17,4 +17,14 @@ public interface PostService {
     Result auditPost(int postId, PostStatusEnum postStatusEnum);
 
     Result update(PostForm postForm);
+
+    Result upPost(Integer postId);
+
+    Result downPost(Integer postId);
+
+    Result coinPost(Integer postId);
+
+    Result collectPost(Integer postId);
+
+    Result sharePost(Integer postId);
 }

@@ -21,6 +21,7 @@ import com.whut.springbootshiro.util.AuthenticationUserUtil;
 import com.whut.springbootshiro.vo.PostCommentVo;
 import com.whut.springbootshiro.vo.PostVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -89,6 +90,7 @@ public class CommentServiceImpl implements CommentService {
      * @return 返回信息值
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result upComment(Integer commentId) {
         PostComment postComment = postCommentMapper.selectByPrimaryKey(commentId);
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
@@ -120,11 +122,13 @@ public class CommentServiceImpl implements CommentService {
             Integer downNum = postComment.getDownNum();
             postComment.setUpNum((Objects.isNull(upNum) ? 0 : upNum) + 1);
             postComment.setDownNum((Objects.isNull(downNum) ? 0 : downNum) - 1);
+            postCommentMapper.updateByPrimaryKeySelective(postComment);
             return new Result(CodeMsg.SUCCESS);
         }
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result downComment(Integer commentId) {
         PostComment postComment = postCommentMapper.selectByPrimaryKey(commentId);
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();

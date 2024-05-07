@@ -7,8 +7,11 @@ package com.whut.springbootshiro.eunm;
 public enum PostStatusEnum {
 
     PUBLISH("publish"),
+
     AGREE("agree"),
+
     DISAGREE("disagree"),
+
     REMOVE("remove");
 
     private String value;

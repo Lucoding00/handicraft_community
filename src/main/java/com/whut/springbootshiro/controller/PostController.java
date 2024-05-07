@@ -86,4 +86,62 @@ public class PostController {
     public Object deletePost(int postId) {
         return postService.auditPost(postId, PostStatusEnum.REMOVE);
     }
+
+
+    /**
+     * 给帖子点赞
+     *
+     * @param postId 帖子id
+     * @return 返回值
+     */
+    @PostMapping("upPost")
+    public Object upPost(Integer postId) {
+        return postService.upPost(postId);
+    }
+
+    /**
+     * 给帖子点踩
+     *
+     * @param postId 帖子id
+     * @return 返回值
+     */
+    @PostMapping("downPost")
+    public Object downPost(Integer postId) {
+        return postService.downPost(postId);
+    }
+
+
+    /**
+     * 给帖子投币
+     *
+     * @param postId 帖子id
+     * @return 返回值
+     */
+    @PostMapping("coinPost")
+    public Object coinPost(Integer postId) {
+        return postService.coinPost(postId);
+    }
+
+    /**
+     * 给帖子收藏
+     *
+     * @param postId 帖子id
+     * @return 返回值
+     */
+    @PostMapping("collectPost")
+    public Object collectPost(Integer postId) {
+        return postService.collectPost(postId);
+    }
+
+    /**
+     * 给帖子分享帖子
+     *
+     * @param postId 帖子id
+     * @return 返回值
+     */
+    @PostMapping("sharePost")
+    public Object sharePost(Integer postId) {
+        return postService.sharePost(postId);
+    }
+
 }

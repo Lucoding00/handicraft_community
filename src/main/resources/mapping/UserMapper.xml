@@ -10,12 +10,13 @@
     <result column="pic" property="pic" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="CHAR" />
     <result column="status" property="status" jdbcType="CHAR" />
+    <result column="coin_num" property="coinNum" jdbcType="INTEGER" />
     <result column="country" property="country" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, username, password, role_name, email, pic, sex, status, country, create_time, 
+    id, username, password, role_name, email, pic, sex, status, country, create_time,coin_num,
     update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -42,11 +43,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.whut.springbootshiro.model.User" >
-    insert into `user` (id, username, password,
+    insert into `user` (id,coin_num, username, password,
       role_name, email, pic, 
       sex, status, country, create_time, 
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER},#{coinNum,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{roleName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, 
       #{sex,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{country,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
@@ -56,6 +57,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="coinNum != null" >
+        coin_num,
       </if>
       <if test="username != null" >
         username,
@@ -91,6 +95,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="coinNum != null" >
+        #{coinNum,jdbcType=INTEGER},
       </if>
       <if test="username != null" >
         #{username,jdbcType=VARCHAR},
@@ -157,6 +164,9 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="coinNum != null" >
+        coin_num = #{coinNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -171,7 +181,8 @@
       status = #{status,jdbcType=CHAR},
       country = #{country,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      coin_num = #{coinNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updatePassword">
@@ -179,5 +190,8 @@
   </update>
   <update id="updateHeaderImg">
     update `user` set pic =#{img} where id=#{id}
+  </update>
+  <update id="updateCoinNum">
+   update `user` set coin_num =#{coinNum} where id=#{userId}
   </update>
 </mapper>

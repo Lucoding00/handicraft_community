@@ -15,6 +15,8 @@ public class Post {
 
     private Integer lookNum = 0;
 
+    private Integer disLikeNum = 0;
+
     private Integer commentNum = 0;
 
     private Integer likeNum = 0;
@@ -26,6 +28,14 @@ public class Post {
     private Integer shareNum = 0;
 
     private String status;
+
+    public Integer getDisLikeNum() {
+        return disLikeNum;
+    }
+
+    public void setDisLikeNum(Integer disLikeNum) {
+        this.disLikeNum = disLikeNum;
+    }
 
     private Date createTime;
 
