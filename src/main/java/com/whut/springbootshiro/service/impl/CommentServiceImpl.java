@@ -64,12 +64,6 @@ public class CommentServiceImpl implements CommentService {
     public Result postComments(PostCommentsQuery postCommentsQuery) {
         Page<PostCommentVo> postCommentVos = PageHelper.startPage(postCommentsQuery.getPage(), postCommentsQuery.getLimit());
         postCommentMapper.selectList(postCommentsQuery);
-        PageInfo<PostCommentVo> postCommentVoPageInfo = postCommentVos.toPageInfo();
-        List<PostCommentVo> list = postCommentVoPageInfo.getList();
-        for (PostCommentVo postCommentVo : list) {
-            postCommentVo.setCommentUser(userMapper.selectByPrimaryKey(postCommentVo.getUserId()));
-            postCommentVo.setToUser(userMapper.selectByPrimaryKey(postCommentVo.getToUserId()));
-        }
         return new Result(postCommentVos.toPageInfo());
     }
 }

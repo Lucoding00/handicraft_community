@@ -34,7 +34,6 @@
       where post_id = #{id}
   </select>
 
-
     <sql id="Base_Column_List">
     id, title, cover, video_url, tags, look_num, comment_num, like_num, coin_num, collect_num, 
     share_num, status, create_time, update_time

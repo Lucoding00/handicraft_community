@@ -22,10 +22,22 @@
     <result column="down_num" property="downNum" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <collection property="commentUser" ofType="com.whut.springbootshiro.model.User"
+                select="select_user_method"
+                column="{id=user_id}"/>
+    <collection property="toUser" ofType="com.whut.springbootshiro.model.User"
+                select="select_user_method"
+                column="{id=to_user_id}"/>
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, post_id, comment, to_user_id, up_num, down_num, create_time, update_time
   </sql>
+
+  <select id="select_user_method" resultType="com.whut.springbootshiro.model.User" parameterType="long">
+      select *
+      from user
+      where id = #{id}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
