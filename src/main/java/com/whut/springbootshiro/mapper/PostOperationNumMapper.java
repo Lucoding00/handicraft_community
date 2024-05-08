@@ -18,4 +18,6 @@ public interface PostOperationNumMapper {
     PostOperationNum selectByUserIdAndPostId(Integer userId, Integer postId);
 
     PostOperationNum selectByUserIdAndPostIdAndStatus(Integer userId, Integer postId, String status);
+
+    PostOperationNum selectLastLook(Integer userId, Integer postId);
 }

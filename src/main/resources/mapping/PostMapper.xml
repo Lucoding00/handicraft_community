@@ -60,7 +60,6 @@
         a.create_time,
         a.content,
         a.update_time,
-        a.create_time,
         c.username as username,
         c.id as userId
         from post as a
@@ -76,6 +75,51 @@
             </if>
         </where>
     </select>
+    <select id="selectNewList" resultMap="BaseResultMapVo">
+        select
+        a.id,
+        a.title,
+        a.cover,
+        a.video_url,
+        a.tags,
+        a.create_time,
+        a.content,
+        a.update_time,
+        c.username as username,
+        c.id as userId
+        from post as a
+        left join user_post_rel b on a.id = b.post_id
+        left join `user` as c on b.user_id = c.id
+        order by a.create_time desc
+        limit 0 #{newNum}
+    </select>
+    <select id="selectHotList" resultType="com.whut.springbootshiro.vo.PostVo">
+        select
+        a.id,
+        a.title,
+        a.cover,
+        a.video_url,
+        a.tags,
+        a.create_time,
+        a.content,
+        a.update_time,
+        c.username as username,
+        c.id as userId
+        from post as a
+        left join user_post_rel b on a.id = b.post_id
+        left join `user` as c on b.user_id = c.id
+        order by (
+        COALESCE(a.look_num, 0) * 0.1
+        + COALESCE(a.comment_num, 0) * 0.15
+        + COALESCE(a.like_num, 0) * 0.15
+        + COALESCE(a.dislike_num, 0) * 0.15
+        + COALESCE(a.coin_num, 0) * 0.15
+        + COALESCE(a.collect_num, 0) * 0.15
+        + COALESCE(a.share_num, 0) * 0.15
+        ) desc
+        limit 0 #{newNum}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from post
     where id = #{id,jdbcType=INTEGER}

@@ -1,5 +1,7 @@
 package com.whut.springbootshiro.model;
 
+import java.util.Date;
+
 public class PostOperationNum {
     private Integer id;
 
@@ -8,6 +10,18 @@ public class PostOperationNum {
     private Integer postId;
 
     private Integer userId;
+
+
+    private Date createTime;
+
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     public Integer getId() {
         return id;

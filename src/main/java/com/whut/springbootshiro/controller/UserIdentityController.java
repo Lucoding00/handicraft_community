@@ -134,12 +134,11 @@ public class UserIdentityController {
      * 用户充值
      *
      * @param userId 用户id
+     * @param coinNum 充值钱数
      * @return 返回值
      */
     @PostMapping("recharge")
     public Object recharge(int userId, int coinNum) {
         return userService.recharge(userId, coinNum);
     }
-
-
 }

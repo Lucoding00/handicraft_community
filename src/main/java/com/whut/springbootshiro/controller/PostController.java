@@ -144,4 +144,15 @@ public class PostController {
         return postService.sharePost(postId);
     }
 
+    /**
+     * 浏览当前帖子
+     *
+     * @param postId 帖子id
+     * @return 返回值
+     */
+    @PostMapping("lookPost")
+    public Object lookPost(Integer postId) {
+        return postService.lookPost(postId);
+    }
+
 }

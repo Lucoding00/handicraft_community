@@ -22,4 +22,8 @@ public interface PostMapper {
     int updateByPrimaryKey(Post record);
 
     List<PostVo> selectList(ReviewQuery reviewQuery);
+
+    List<PostVo> selectNewList(int newNum);
+
+    List<PostVo> selectHotList(int hotNum);
 }

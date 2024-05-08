@@ -15,6 +15,8 @@ public enum PostOperationEnum {
 
     COIN("coin"),
 
+    LOOK("look"),
+
     COLLECT("collect");
 
     private String value;

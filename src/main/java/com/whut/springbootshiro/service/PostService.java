@@ -27,4 +27,6 @@ public interface PostService {
     Result collectPost(Integer postId);
 
     Result sharePost(Integer postId);
+
+    Result lookPost(Integer postId);
 }

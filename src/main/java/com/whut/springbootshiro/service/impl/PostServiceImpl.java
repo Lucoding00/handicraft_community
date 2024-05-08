@@ -274,4 +274,36 @@ public class PostServiceImpl implements PostService {
             return new Result(CodeMsg.SUCCESS);
         }
     }
+
+    @Override
+    public Result lookPost(Integer postId) {
+        Post post = postMapper.selectByPrimaryKey(postId);
+        ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
+        Integer userId = currentUser.getId();
+        PostOperationNum postOperationNum = postOperationNumMapper.selectLastLook(userId, postId);
+        if (isWithin5Minutes(new Date(), postOperationNum.getCreateTime())) {
+            return new Result(CodeMsg.LOOK_TIME_WITHIN_FIVE_TIME);
+        } else {
+            PostOperationNum insertNum = new PostOperationNum();
+            insertNum.setOperationType(PostOperationEnum.LOOK.getValue());
+            insertNum.setUserId(userId);
+            insertNum.setPostId(postId);
+            insertNum.setCreateTime(new Date());
+            postOperationNumMapper.insertSelective(insertNum);
+            Integer lookNum = post.getLookNum();
+            post.setLookNum((Objects.isNull(lookNum) ? 0 : lookNum) + 1);
+            postMapper.updateByPrimaryKeySelective(post);
+            return new Result(CodeMsg.SUCCESS);
+        }
+    }
+
+    private boolean isWithin5Minutes(Date currentTime, Date otherTime) {
+        // 计算时间差（以毫秒为单位）
+        long diff = currentTime.getTime() - otherTime.getTime();
+        // 转换为分钟
+        long diffMinutes = diff / (60 * 1000);
+
+        // 判断时间差是否小于5分钟
+        return Math.abs(diffMinutes) < 5;
+    }
 }
