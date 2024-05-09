@@ -1,0 +1,114 @@
+@startuml
+left to right direction
+actor 用户 as user
+rectangle 手工艺品社区系统 {
+
+  usecase "登录" as login
+
+
+  usecase "会员身份认证" as user_sure
+
+
+  usecase "退出" as logout
+  usecase "注册" as register
+
+  usecase "查看个人信息" as view_user_info
+
+  usecase "修改个人信息" as update_user_info
+
+  usecase "修改密码" as update_password
+
+  usecase "内容数据交互" as content_interactive
+
+  usecase "私信" as personal_message
+
+  usecase "发帖" as post
+
+  usecase "添加帖子内容" as add_post_content
+
+  usecase "添加附件" as add_post_attachment
+
+  usecase "查看自己发布的帖子列表" as view_post_list
+
+  usecase "修改帖子" as update_post
+
+  usecase "修改帖子内容" as update_post_content
+
+  usecase "修改附件" as update_post_attachment
+
+
+  usecase "添加评论" as add_post_comment
+
+  usecase "删除评论" as delete_post_comment
+
+
+  usecase "行为数据交互" as behavior_interactive
+
+
+  usecase "点赞帖子" as up_post
+  usecase "点踩帖子" as down_post
+  usecase "分享帖子" as share_post
+  usecase "收藏帖子" as collect_post
+  usecase "投币帖子" as coin_post
+
+  usecase "点赞评论" as up_comment
+  usecase "点踩评论" as down_comment
+
+}
+
+user --> user_sure
+user_sure <.. logout : 扩展
+user_sure <.. register : 扩展
+user_sure <.. view_user_info : 扩展
+user_sure <.. update_user_info : 扩展
+user_sure <.. update_password : 扩展
+
+user --> content_interactive
+
+content_interactive <.. personal_message : 扩展
+content_interactive <.. post : 扩展
+content_interactive <.. add_post_content : 扩展
+content_interactive <.. add_post_attachment : 扩展
+content_interactive <.. view_post_list : 扩展
+content_interactive <.. update_post : 扩展
+content_interactive <.. update_post_content : 扩展
+content_interactive <.. update_post_attachment : 扩展
+content_interactive <.. add_post_comment : 扩展
+content_interactive <.. delete_post_comment : 扩展
+
+user --> behavior_interactive
+behavior_interactive <.. up_post : 扩展
+behavior_interactive <.. down_post : 扩展
+behavior_interactive <.. share_post : 扩展
+behavior_interactive <.. collect_post : 扩展
+behavior_interactive <.. coin_post : 扩展
+behavior_interactive <.. up_comment : 扩展
+behavior_interactive <.. down_comment : 扩展
+
+
+logout ..> login : 包含
+register ..> login : 包含
+view_user_info ..> login : 包含
+update_user_info ..> login : 包含
+update_password ..> login : 包含
+
+
+personal_message ..> login : 包含
+post ..> login : 包含
+add_post_content ..> login : 包含
+add_post_attachment ..> login : 包含
+view_post_list ..> login : 包含
+update_post ..> login : 包含
+update_post_content ..> login : 包含
+update_post_attachment ..> login : 包含
+add_post_comment ..> login : 包含
+delete_post_comment ..> login : 包含
+
+up_post ..> login : 包含
+down_post ..> login : 包含
+share_post ..> login : 包含
+collect_post ..> login : 包含
+coin_post ..> login : 包含
+up_comment ..> login : 包含
+down_comment ..> login : 包含
+@enduml

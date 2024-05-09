@@ -1,0 +1,79 @@
+@startuml
+left to right direction
+actor 管理员 as admin
+rectangle 手工艺品社区系统 {
+  usecase "管理兴趣圈子" as interest
+  usecase "管理人员信息" as user_info
+  usecase "帖子数据管理" as post_data
+
+  usecase "新增兴趣圈子" as insert_interest
+  usecase "修改兴趣圈子" as update_interest
+  usecase "删除兴趣圈子" as delete_interest
+  usecase "查询兴趣圈子" as select_interest
+
+  usecase "新增人员信息" as insert_user_info
+  usecase "修改人员信息" as update_user_info
+  usecase "删除人员信息" as delete_user_info
+  usecase "查询人员信息" as select_user_info
+
+  usecase "会员身份管理" as select_user_profile
+
+  usecase "重置密码" as user_reset_password
+  usecase "账户冻结" as freeze_user
+
+
+  usecase "审核帖子" as review_post
+
+  usecase "查询帖子列表" as select_post
+  usecase "删除帖子" as delete_post
+  usecase "查询评论列表" as select_comment
+  usecase "删除评论" as delete_comment
+
+  usecase "登录" as login
+
+
+}
+
+admin --> interest
+interest <.. insert_interest : 扩展
+interest <.. update_interest : 扩展
+interest <.. delete_interest : 扩展
+interest <.. select_interest : 扩展
+
+admin --> user_info
+user_info <.. insert_user_info : 扩展
+user_info <.. update_user_info : 扩展
+user_info <.. delete_user_info : 扩展
+user_info <.. select_user_info : 扩展
+
+admin --> post_data
+post_data <.. review_post : 扩展
+post_data <.. select_post : 扩展
+post_data <.. delete_post : 扩展
+post_data <.. select_comment : 扩展
+post_data <.. delete_comment : 扩展
+
+admin --> select_user_profile
+select_user_profile <.. user_reset_password : 扩展
+select_user_profile <.. freeze_user : 扩展
+
+
+insert_interest --> login : 包含
+update_interest --> login : 包含
+delete_interest --> login : 包含
+select_interest --> login : 包含
+insert_user_info --> login : 包含
+update_user_info --> login : 包含
+delete_user_info --> login : 包含
+select_user_info --> login : 包含
+user_reset_password --> login : 包含
+freeze_user --> login : 包含
+review_post --> login : 包含
+select_post --> login : 包含
+delete_post --> login : 包含
+select_comment --> login : 包含
+delete_comment --> login : 包含
+
+
+
+@enduml

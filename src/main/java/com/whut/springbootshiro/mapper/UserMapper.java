@@ -2,6 +2,7 @@ package com.whut.springbootshiro.mapper;
 
 import com.whut.springbootshiro.model.User;
 import com.whut.springbootshiro.query.UserAdminQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    User selectUserByNameAndPwd(String username, String toString);
+    User selectUserByNameAndPwd(@Param("username") String username,@Param("password") String password);
 
     int updatePassword(Integer id, String password);
 

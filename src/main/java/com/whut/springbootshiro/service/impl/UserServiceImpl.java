@@ -93,6 +93,8 @@ public class UserServiceImpl implements UserService {
         stringStringHashMap.put("img", specCaptcha.toBase64());
         //存放到内存当中
         verCodeMap.put(key, verCode);
+        System.out.println(key);
+        System.out.println(verCode);
         return stringStringHashMap;
     }
 

@@ -11,7 +11,7 @@
  Target Server Version : 80025
  File Encoding         : 65001
 
- Date: 29/04/2024 22:10:38
+ Date: 09/05/2024 00:30:33
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `comment_operation_num`  (
   `comment_id` int(0) NULL DEFAULT NULL COMMENT '评论id',
   `user_id` int(0) NOT NULL COMMENT '用户id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '评论操作数量表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '评论操作数量表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for follower
@@ -78,7 +78,7 @@ CREATE TABLE `personal_message`  (
   `recipient_id` int(0) NULL DEFAULT NULL COMMENT '接受消息用户id',
   `receive_time` datetime(0) NULL DEFAULT NULL COMMENT '接收时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '私信信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '私信信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post
@@ -94,6 +94,7 @@ CREATE TABLE `post`  (
   `look_num` int(0) NULL DEFAULT NULL COMMENT '观看数量',
   `comment_num` int(0) NULL DEFAULT NULL COMMENT '评论数量',
   `like_num` int(0) NULL DEFAULT NULL COMMENT '点赞数量',
+  `dislike_num` int(0) NULL DEFAULT NULL COMMENT '不喜欢数量',
   `coin_num` int(0) NULL DEFAULT NULL COMMENT '投币数量',
   `collect_num` int(0) NULL DEFAULT NULL COMMENT '收藏数量',
   `share_num` int(0) NULL DEFAULT NULL COMMENT '分享数量',
@@ -101,7 +102,7 @@ CREATE TABLE `post`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '帖子信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '帖子信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post_attachment
@@ -114,7 +115,7 @@ CREATE TABLE `post_attachment`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '帖子附件表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '帖子附件表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post_comment
@@ -125,13 +126,13 @@ CREATE TABLE `post_comment`  (
   `user_id` int(0) NULL DEFAULT NULL COMMENT '用户id',
   `post_id` int(0) NULL DEFAULT NULL COMMENT '帖子id',
   `comment` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '评论',
-  `parent_id` int(0) NULL DEFAULT NULL COMMENT '父级评论id',
+  `to_user_id` int(0) NULL DEFAULT NULL COMMENT '回复的用户id',
   `up_num` int(0) NULL DEFAULT NULL COMMENT '点赞数量',
   `down_num` int(0) NULL DEFAULT NULL COMMENT '点踩数量',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '帖子评论表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '帖子评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for post_operation_num
@@ -139,11 +140,12 @@ CREATE TABLE `post_comment`  (
 DROP TABLE IF EXISTS `post_operation_num`;
 CREATE TABLE `post_operation_num`  (
   `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `operation_type` enum('like','coin','share','collect') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '点赞，投币，分享，收藏',
+  `operation_type` enum('like','coin','share','collect','dislike','look') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '点赞，投币，分享，收藏',
   `post_id` int(0) NULL DEFAULT NULL COMMENT '帖子id',
   `user_id` int(0) NULL DEFAULT NULL COMMENT '用户id',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '帖子操作数量信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '帖子操作数量信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for user
@@ -161,13 +163,14 @@ CREATE TABLE `user`  (
   `country` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '国家',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `coin_num` int(0) NULL DEFAULT NULL COMMENT '硬币数量',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'test1', 'cafe5b9a578b701a1110cb22f733d17d', 'user', NULL, NULL, NULL, 'available', NULL, '2024-04-24 00:15:13', '2024-04-24 00:15:13');
+INSERT INTO `user` VALUES (1, 'test1', 'cafe5b9a578b701a1110cb22f733d17d', 'user', NULL, NULL, NULL, 'available', NULL, '2024-04-24 00:15:13', '2024-04-24 00:15:13', NULL);
 
 -- ----------------------------
 -- Table structure for user_post_rel
