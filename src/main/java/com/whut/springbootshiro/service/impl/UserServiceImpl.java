@@ -209,7 +209,7 @@ public class UserServiceImpl implements UserService {
     public Result unfreezeUser(int userId) {
         User user = userMapper.selectByPrimaryKey(userId);
         if (!UserStatusEnum.UNUSABLE.getValue().equals(user.getStatus())) {
-            return new Result(CodeMsg.STATUS_IS_NOT_OK);
+            return new Result(CodeMsg.STATUS_IS_OK);
         }
         user.setStatus(UserStatusEnum.AVAILABLE.getValue());
         int result = userMapper.updateByPrimaryKeySelective(user);
