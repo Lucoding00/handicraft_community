@@ -1,0 +1,79 @@
+@startuml
+left to right direction
+actor Admin as admin
+rectangle "Handicraft Community System" {
+  usecase "Manage interest circles" as interest
+  usecase "Management personnel information" as user_info
+  usecase "Post Data Management" as post_data
+
+  usecase "Add interest circles" as insert_interest
+  usecase "Modify interest circles" as update_interest
+  usecase "Delete interest circles" as delete_interest
+  usecase "Search for interest circles" as select_interest
+
+  usecase "Add personnel information" as insert_user_info
+  usecase "Modify personnel information" as update_user_info
+  usecase "Delete personnel information" as delete_user_info
+  usecase "Query personnel information" as select_user_info
+
+  usecase "Membership Management" as select_user_profile
+
+  usecase "reset password " as user_reset_password
+  usecase "Account freeze" as freeze_user
+
+
+  usecase "Review post" as review_post
+
+  usecase "Query post list" as select_post
+  usecase "Delete post" as delete_post
+  usecase "Query comment list" as select_comment
+  usecase "Delete comment" as delete_comment
+
+  usecase "Login" as login
+
+
+}
+
+admin --> interest
+interest <.. insert_interest : extend
+interest <.. update_interest : extend
+interest <.. delete_interest : extend
+interest <.. select_interest : extend
+
+admin --> user_info
+user_info <.. insert_user_info : extend
+user_info <.. update_user_info : extend
+user_info <.. delete_user_info : extend
+user_info <.. select_user_info : extend
+
+admin --> post_data
+post_data <.. review_post : extend
+post_data <.. select_post : extend
+post_data <.. delete_post : extend
+post_data <.. select_comment : extend
+post_data <.. delete_comment : extend
+
+admin --> select_user_profile
+select_user_profile <.. user_reset_password : extend
+select_user_profile <.. freeze_user : extend
+
+
+insert_interest --> login : include
+update_interest --> login : include
+delete_interest --> login : include
+select_interest --> login : include
+insert_user_info --> login : include
+update_user_info --> login : include
+delete_user_info --> login : include
+select_user_info --> login : include
+user_reset_password --> login : include
+freeze_user --> login : include
+review_post --> login : include
+select_post --> login : include
+delete_post --> login : include
+select_comment --> login : include
+delete_comment --> login : include
+
+
+
+@enduml

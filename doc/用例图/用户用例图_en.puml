@@ -1,0 +1,114 @@
+@startuml
+left to right direction
+actor user as user
+rectangle "Handicraft Community System" {
+
+  usecase "login" as login
+
+
+  usecase "Membership authentication" as user_sure
+
+
+  usecase "logout" as logout
+  usecase "register" as register
+
+  usecase "View personal information" as view_user_info
+
+  usecase "Update personal information" as update_user_info
+
+  usecase "update password" as update_password
+
+  usecase "Content data interaction" as content_interactive
+
+  usecase "personal message" as personal_message
+
+  usecase "Posting" as post
+
+  usecase "Add post content" as add_post_content
+
+  usecase "Add attachments" as add_post_attachment
+
+  usecase "View the list of posts you have posted" as view_post_list
+
+  usecase "Modify post" as update_post
+
+  usecase "Modify post content" as update_post_content
+
+  usecase "Modifying attachments" as update_post_attachment
+
+
+  usecase "Add comments" as add_post_comment
+
+  usecase "delete comments" as delete_post_comment
+
+
+  usecase "Behavioral data interaction" as behavior_interactive
+
+
+  usecase "Like post" as up_post
+  usecase "Tap on posts" as down_post
+  usecase "Share post" as share_post
+  usecase "Favorite posts" as collect_post
+  usecase "Coin posting" as coin_post
+
+  usecase "Like comments" as up_comment
+  usecase "Click on comment" as down_comment
+
+}
+
+user --> user_sure
+user_sure <.. logout : extend
+user_sure <.. register : extend
+user_sure <.. view_user_info : extend
+user_sure <.. update_user_info : extend
+user_sure <.. update_password : extend
+
+user --> content_interactive
+
+content_interactive <.. personal_message : extend
+content_interactive <.. post : extend
+content_interactive <.. add_post_content : extend
+content_interactive <.. add_post_attachment : extend
+content_interactive <.. view_post_list : extend
+content_interactive <.. update_post : extend
+content_interactive <.. update_post_content : extend
+content_interactive <.. update_post_attachment : extend
+content_interactive <.. add_post_comment : extend
+content_interactive <.. delete_post_comment : extend
+
+user --> behavior_interactive
+behavior_interactive <.. up_post : extend
+behavior_interactive <.. down_post : extend
+behavior_interactive <.. share_post : extend
+behavior_interactive <.. collect_post : extend
+behavior_interactive <.. coin_post : extend
+behavior_interactive <.. up_comment : extend
+behavior_interactive <.. down_comment : extend
+
+
+logout ..> login : include
+register ..> login : include
+view_user_info ..> login : include
+update_user_info ..> login : include
+update_password ..> login : include
+
+
+personal_message ..> login : include
+post ..> login : include
+add_post_content ..> login : include
+add_post_attachment ..> login : include
+view_post_list ..> login : include
+update_post ..> login : include
+update_post_content ..> login : include
+update_post_attachment ..> login : include
+add_post_comment ..> login : include
+delete_post_comment ..> login : include
+
+up_post ..> login : include
+down_post ..> login : include
+share_post ..> login : include
+collect_post ..> login : include
+coin_post ..> login : include
+up_comment ..> login : include
+down_comment ..> login : include
+@enduml
