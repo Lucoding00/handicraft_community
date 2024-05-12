@@ -1,5 +1,6 @@
 package com.whut.springbootshiro.controller;
 
+import com.whut.springbootshiro.form.UserAdminForm;
 import com.whut.springbootshiro.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,13 +41,12 @@ public class UserIdentityController {
     /**
      * 普通用户注册
      *
-     * @param username 用户名
-     * @param password 密码
+     * @param userAdminForm 用户信息
      * @return 注册状态返回消息
      */
     @PostMapping("normalUserRegister")
-    public Object normalUserRegister(String username, String password) {
-        return userService.normalUserRegister(username, password);
+    public Object normalUserRegister(UserAdminForm userAdminForm) {
+        return userService.normalUserRegister(userAdminForm);
     }
 
 
@@ -100,7 +100,7 @@ public class UserIdentityController {
      * @param img 头像url
      * @return 头像返回值
      */
-    @RequestMapping("updateHeaderImg")
+    @PostMapping("updateHeaderImg")
     public Object updateHeaderImg(String img) {
         return userService.updateHeaderImg(img);
     }

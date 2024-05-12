@@ -7,21 +7,24 @@ import com.whut.springbootshiro.query.UserAdminQuery;
 
 /**
  * 用户的接口
- * 
+ *
  * @author Lei
  * @date 2024-04-20 23:00
  */
 public interface UserService {
     Result login(String username, String password, String code, String key);
+
     Object getCaptcha();
+
     Result logout();
+
     Result updatePassword(String password, String newPassword);
 
     Result updateHeaderImg(String img);
 
     Result resetPassword();
 
-    Result normalUserRegister(String username, String password);
+    Result normalUserRegister(UserAdminForm userAdminForm);
 
     Result updateUserInfo(UserInfoForm userInfoForm);
 
@@ -37,5 +40,5 @@ public interface UserService {
 
     Result page(UserAdminQuery userAdminQuery);
 
-    Result recharge(int userId,int coinNum);
+    Result recharge(int userId, int coinNum);
 }

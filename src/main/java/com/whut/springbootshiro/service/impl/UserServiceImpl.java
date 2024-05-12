@@ -154,10 +154,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result normalUserRegister(String username, String password) {
+    public Result normalUserRegister(UserAdminForm userAdminForm) {
+        User checkUserName = userMapper.selectByCondition("username", userAdminForm.getUsername());
+        if (!Objects.isNull(checkUserName)) {
+            return new Result(CodeMsg.USERNAME_ERROR);
+        }
+        User checkUserEmail = userMapper.selectByCondition("email", userAdminForm.getEmail());
+        if (!Objects.isNull(checkUserEmail)) {
+            return new Result(CodeMsg.EMAIL_ERROR);
+        }
         User user = new User();
-        user.setUsername(username);
-        Md5Hash md5Hash1 = new Md5Hash(password, Constant.MD5_SALT, 2);
+        BeanUtil.copyProperties(userAdminForm, user);
+        Md5Hash md5Hash1 = new Md5Hash(userAdminForm.getUsername(), Constant.MD5_SALT, 2);
         user.setPassword(md5Hash1.toString());
         user.setRoleName(UserRoleEnum.USER.getValue());
         user.setStatus(UserStatusEnum.AVAILABLE.getValue());

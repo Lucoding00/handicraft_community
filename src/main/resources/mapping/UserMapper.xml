@@ -38,6 +38,10 @@
       </if>
     </where>
   </select>
+  <select id="selectByCondition" resultType="com.whut.springbootshiro.model.User">
+    select * from `user`
+    where ${condition} = #{value}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from `user`
     where id = #{id,jdbcType=INTEGER}

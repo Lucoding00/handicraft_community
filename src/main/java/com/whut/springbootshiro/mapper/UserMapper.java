@@ -28,4 +28,6 @@ public interface UserMapper {
     List<User> selectList(UserAdminQuery userAdminQuery);
 
     int updateCoinNum(Integer userId, int coinNum);
+
+    User selectByCondition(String condition, String value);
 }
