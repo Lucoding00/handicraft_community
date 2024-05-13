@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class PostVo {
 
-    private int postId;
+    private int id;
 
     private String title;
 

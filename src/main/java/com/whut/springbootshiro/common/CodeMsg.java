@@ -9,6 +9,7 @@ public enum CodeMsg {
     CODE_INVALID(441, "The verification code is invalid"),
     USERNAME_ERROR(442, "The username cannot be duplicated"),
     EMAIL_ERROR(443, "email are also not allowed to be repeated"),
+    PUBLISH_STATUS_ERROR(444, "The current status is not publish"),
 
     USER_USER_PASSWORD_ERROR(4001001, "Wrong username or password"),
     USER_NOT_HAVE_PERMISSION_ERROR(4001005, "Insufficient user permissions"),

@@ -24,12 +24,12 @@
     <resultMap id="BaseResultMapVo" type="com.whut.springbootshiro.vo.PostVo" extends="ResultMapWithBLOBs">
         <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="userId" property="userId" jdbcType="INTEGER"/>
-        <collection property="postAttachments" ofType="com.whut.springbootshiro.vo.PostVo"
+        <collection property="postAttachments" ofType="com.whut.springbootshiro.model.PostAttachment"
                     select="select_attachment_method"
                     column="id"/>
     </resultMap>
 
-    <select id="select_attachment_method" resultType="com.whut.springbootshiro.vo.PostVo" parameterType="long">
+    <select id="select_attachment_method" resultType="com.whut.springbootshiro.model.PostAttachment" parameterType="long">
       select *
       from post_attachment
       where post_id = #{id}
@@ -139,7 +139,7 @@
       )
   </insert>
     <insert id="insertSelective" parameterType="com.whut.springbootshiro.model.Post" useGeneratedKeys="true"
-            keyColumn="id">
+            keyColumn="id" keyProperty="id">
         insert into post
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

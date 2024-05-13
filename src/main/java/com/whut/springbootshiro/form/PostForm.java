@@ -10,6 +10,7 @@ import java.util.List;
  */
 @Data
 public class PostForm {
+    private int id;
 
     private String title;
 

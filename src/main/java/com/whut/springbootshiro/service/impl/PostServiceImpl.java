@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -59,8 +60,9 @@ public class PostServiceImpl implements PostService {
     @Transactional(rollbackFor = Exception.class)
     public Result add(PostForm postForm) {
         Post post = new Post();
-        post.setCreateTime(new Date());
-        post.setUpdateTime(new Date());
+        Date date = new Date();
+        post.setCreateTime(date);
+        post.setUpdateTime(date);
         post.setStatus(PostStatusEnum.PUBLISH.getValue());
         BeanUtil.copyProperties(postForm, post);
         int nextInt = postMapper.insertSelective(post);
@@ -69,9 +71,11 @@ public class PostServiceImpl implements PostService {
         }
         Integer id = post.getId();
         List<String> attachmentUrls = postForm.getAttachmentUrls();
-        int res = postAttachmentMapper.insertBatch(id, attachmentUrls);
-        if (res <= 0) {
-            return new Result(CodeMsg.INSERT_POST_ERROR);
+        if (!attachmentUrls.isEmpty()) {
+            int res = postAttachmentMapper.insertBatch(id, attachmentUrls);
+            if (res <= 0) {
+                return new Result(CodeMsg.INSERT_POST_ERROR);
+            }
         }
         Subject subject = SecurityUtils.getSubject();
         ActiveUser user = (ActiveUser) subject.getPrincipal();
@@ -96,6 +100,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public Result auditPost(int postId, PostStatusEnum postStatusEnum) {
         Post post = postMapper.selectByPrimaryKey(postId);
+        if ((postStatusEnum.getValue().equals(PostStatusEnum.AGREE.getValue())
+                || postStatusEnum.getValue().equals(PostStatusEnum.DISAGREE.getValue()))
+                && !PostStatusEnum.PUBLISH.getValue().equals(postStatusEnum.getValue())) {
+            return new Result(CodeMsg.PUBLISH_STATUS_ERROR);
+        }
         post.setStatus(postStatusEnum.getValue());
         int result = postMapper.updateByPrimaryKeySelective(post);
         if (result > 0) {
