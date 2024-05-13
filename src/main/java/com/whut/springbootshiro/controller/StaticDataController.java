@@ -31,11 +31,4 @@ public class StaticDataController {
     public Object newAndHot(StaticNewAndHotForm form) {
         return staticDataService.newAndHot(form);
     }
-
-
-
-
-
-
-
 }

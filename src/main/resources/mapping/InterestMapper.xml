@@ -10,7 +10,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, interest_name, describe, cover, create_time, update_time
+    id, interest_name, `describe`, cover, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -50,7 +50,7 @@
         interest_name,
       </if>
       <if test="describe != null" >
-        describe,
+        `describe`,
       </if>
       <if test="cover != null" >
         cover,
@@ -90,7 +90,7 @@
         interest_name = #{interestName,jdbcType=VARCHAR},
       </if>
       <if test="describe != null" >
-        describe = #{describe,jdbcType=VARCHAR},
+        `describe` = #{describe,jdbcType=VARCHAR},
       </if>
       <if test="cover != null" >
         cover = #{cover,jdbcType=VARCHAR},

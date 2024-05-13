@@ -155,14 +155,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result normalUserRegister(UserAdminForm userAdminForm) {
-        User checkUserName = userMapper.selectByCondition("username", userAdminForm.getUsername());
-        if (!Objects.isNull(checkUserName)) {
-            return new Result(CodeMsg.USERNAME_ERROR);
-        }
-        User checkUserEmail = userMapper.selectByCondition("email", userAdminForm.getEmail());
-        if (!Objects.isNull(checkUserEmail)) {
-            return new Result(CodeMsg.EMAIL_ERROR);
-        }
+        Result x = registerCheckUserInfo(userAdminForm);
+        if (x != null) return x;
         User user = new User();
         BeanUtil.copyProperties(userAdminForm, user);
         Md5Hash md5Hash1 = new Md5Hash(userAdminForm.getUsername(), Constant.MD5_SALT, 2);
@@ -182,8 +176,24 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    private Result registerCheckUserInfo(UserAdminForm userAdminForm) {
+        User checkUserName = userMapper.selectByCondition("username", userAdminForm.getUsername());
+        if (!Objects.isNull(checkUserName)) {
+            return new Result(CodeMsg.USERNAME_ERROR);
+        }
+        User checkUserEmail = userMapper.selectByCondition("email", userAdminForm.getEmail());
+        if (!Objects.isNull(checkUserEmail)) {
+            return new Result(CodeMsg.EMAIL_ERROR);
+        }
+        return null;
+    }
+
     @Override
     public Result updateUserInfo(UserInfoForm userInfoForm) {
+        User checkUserEmail = userMapper.selectByCondition("email", userInfoForm.getEmail());
+        if (!Objects.isNull(checkUserEmail)) {
+            return new Result(CodeMsg.EMAIL_ERROR);
+        }
         User user = userMapper.selectByPrimaryKey(userInfoForm.getId());
         user.setUpdateTime(new Date());
         user.setEmail(userInfoForm.getEmail());
@@ -230,6 +240,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result addAdminUser(UserAdminForm userAdminForm) {
+        Result x = registerCheckUserInfo(userAdminForm);
+        if (x != null) return x;
         User user = new User();
         user.setStatus(UserStatusEnum.AVAILABLE.getValue());
         user.setCreateTime(new Date());
@@ -237,6 +249,8 @@ public class UserServiceImpl implements UserService {
         user.setCoinNum(100);
         user.setRoleName(UserRoleEnum.ADMIN.getValue());
         BeanUtil.copyProperties(userAdminForm, user);
+        Md5Hash md5Hash1 = new Md5Hash(userAdminForm.getUsername(), Constant.MD5_SALT, 2);
+        user.setPassword(md5Hash1.toString());
         int result = userMapper.insertSelective(user);
         if (result > 0) {
             return new Result(CodeMsg.SUCCESS);
@@ -247,6 +261,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result addNormalUser(UserAdminForm userAdminForm) {
+        Result x = registerCheckUserInfo(userAdminForm);
+        if (x != null) return x;
         User user = new User();
         user.setStatus(UserStatusEnum.AVAILABLE.getValue());
         user.setCreateTime(new Date());
@@ -254,6 +270,8 @@ public class UserServiceImpl implements UserService {
         user.setCoinNum(100);
         user.setRoleName(UserRoleEnum.USER.getValue());
         BeanUtil.copyProperties(userAdminForm, user);
+        Md5Hash md5Hash1 = new Md5Hash(userAdminForm.getUsername(), Constant.MD5_SALT, 2);
+        user.setPassword(md5Hash1.toString());
         int result = userMapper.insertSelective(user);
         if (result > 0) {
             return new Result(CodeMsg.SUCCESS);
