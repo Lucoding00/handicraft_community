@@ -33,7 +33,7 @@
     id, user_id, post_id, comment, to_user_id, up_num, down_num, create_time, update_time
   </sql>
 
-  <select id="select_user_method" resultType="com.whut.springbootshiro.model.User" parameterType="long">
+  <select id="select_user_method" resultType="com.whut.springbootshiro.model.User">
       select *
       from user
       where id = #{id}
@@ -48,7 +48,9 @@
     select <include refid="Base_Column_List"/>
     from post_comment
     where post_id = #{postId}
-    and to_user_id = #{toUserId}
+    <if test="toUserId != null" >
+      and to_user_id = #{toUserId}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from post_comment

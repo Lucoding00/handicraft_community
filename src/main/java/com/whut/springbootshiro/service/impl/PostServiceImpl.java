@@ -290,7 +290,7 @@ public class PostServiceImpl implements PostService {
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
         Integer userId = currentUser.getId();
         PostOperationNum postOperationNum = postOperationNumMapper.selectLastLook(userId, postId);
-        if (isWithin5Minutes(new Date(), postOperationNum.getCreateTime())) {
+        if (!Objects.isNull(postOperationNum) && isWithin5Minutes(new Date(), postOperationNum.getCreateTime())) {
             return new Result(CodeMsg.LOOK_TIME_WITHIN_FIVE_TIME);
         } else {
             PostOperationNum insertNum = new PostOperationNum();

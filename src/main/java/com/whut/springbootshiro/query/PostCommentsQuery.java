@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 public class PostCommentsQuery extends Query {
-    private int postId;
+    private Integer postId;
 
-    private int toUserId;
+    private Integer toUserId;
 }

@@ -8,10 +8,6 @@ import lombok.Data;
  */
 @Data
 public class CommentForm {
-    private int id;
-
-    private Integer userId;
-
     private Integer postId;
 
     private String comment;

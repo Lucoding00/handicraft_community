@@ -47,9 +47,11 @@ public class CommentServiceImpl implements CommentService {
     public Result addComment(CommentForm commentForm) {
         PostComment postComment = new PostComment();
         BeanUtil.copyProperties(commentForm, postComment);
+        Integer userId = AuthenticationUserUtil.getCurrentUser().getId();
         Date date = new Date();
         postComment.setUpdateTime(date);
         postComment.setCreateTime(date);
+        postComment.setUserId(userId);
         int res = postCommentMapper.insertSelective(postComment);
         if (res > 0) {
             return new Result(CodeMsg.SUCCESS);
