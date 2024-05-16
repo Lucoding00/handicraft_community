@@ -139,11 +139,11 @@ public class PostServiceImpl implements PostService {
         Post post = postMapper.selectByPrimaryKey(postId);
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
         Integer userId = currentUser.getId();
-        PostOperationNum postOperationNumUp = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId,PostOperationEnum.LIKE.getValue());
-        PostOperationNum postOperationNumDown = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId,PostOperationEnum.DISLIKE.getValue());
+        PostOperationNum postOperationNumUp = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId, PostOperationEnum.LIKE.getValue());
+        PostOperationNum postOperationNumDown = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId, PostOperationEnum.DISLIKE.getValue());
         // 无点赞
         if (Objects.isNull(postOperationNumUp)
-                && Objects.isNull(postOperationNumDown) ) {
+                && Objects.isNull(postOperationNumDown)) {
             PostOperationNum insertNum = new PostOperationNum();
             insertNum.setOperationType(PostOperationEnum.LIKE.getValue());
             insertNum.setUserId(userId);
@@ -178,8 +178,8 @@ public class PostServiceImpl implements PostService {
         Post post = postMapper.selectByPrimaryKey(postId);
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
         Integer userId = currentUser.getId();
-        PostOperationNum postOperationNumUp = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId,PostOperationEnum.LIKE.getValue());
-        PostOperationNum postOperationNumDown = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId,PostOperationEnum.DISLIKE.getValue());
+        PostOperationNum postOperationNumUp = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId, PostOperationEnum.LIKE.getValue());
+        PostOperationNum postOperationNumDown = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId, PostOperationEnum.DISLIKE.getValue());
 
         // 无点赞
         if (Objects.isNull(postOperationNumUp)
@@ -227,11 +227,11 @@ public class PostServiceImpl implements PostService {
         // 无收藏
         if (Objects.isNull(postOperationNum)) {
             PostOperationNum insertNum = new PostOperationNum();
-            insertNum.setOperationType(PostOperationEnum.COLLECT.getValue());
+            insertNum.setOperationType(PostOperationEnum.COIN.getValue());
             insertNum.setUserId(userId);
             insertNum.setPostId(postId);
+            insertNum.setCreateTime(new Date());
             postOperationNumMapper.insertSelective(insertNum);
-
             Integer coinNum = post.getCoinNum();
             post.setCoinNum((Objects.isNull(coinNum) ? 0 : coinNum) + 2);
             postMapper.updateByPrimaryKeySelective(post);
@@ -254,6 +254,7 @@ public class PostServiceImpl implements PostService {
             insertNum.setOperationType(PostOperationEnum.COLLECT.getValue());
             insertNum.setUserId(userId);
             insertNum.setPostId(postId);
+            insertNum.setCreateTime(new Date());
             postOperationNumMapper.insertSelective(insertNum);
             Integer collectNum = post.getCollectNum();
             post.setCollectNum((Objects.isNull(collectNum) ? 0 : collectNum) + 1);
@@ -280,6 +281,7 @@ public class PostServiceImpl implements PostService {
             insertNum.setOperationType(PostOperationEnum.SHARE.getValue());
             insertNum.setUserId(userId);
             insertNum.setPostId(postId);
+            insertNum.setCreateTime(new Date());
             postOperationNumMapper.insertSelective(insertNum);
             Integer shareNum = post.getShareNum();
             post.setShareNum((Objects.isNull(shareNum) ? 0 : shareNum) + 1);
@@ -287,8 +289,8 @@ public class PostServiceImpl implements PostService {
             return new Result(CodeMsg.SUCCESS);
         } else {
             postOperationNumMapper.deleteByPrimaryKey(postOperationNum.getId());
-            Integer collectNum = post.getCollectNum();
-            post.setCollectNum((Objects.isNull(collectNum) ? 0 : collectNum) - 1);
+            Integer shareNum = post.getShareNum();
+            post.setShareNum((Objects.isNull(shareNum) ? 0 : shareNum) - 1);
             postMapper.updateByPrimaryKeySelective(post);
             return new Result(CodeMsg.SUCCESS);
         }
@@ -333,25 +335,25 @@ public class PostServiceImpl implements PostService {
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
         Integer currentUserId = currentUser.getId();
         PostState postState = new PostState();
-        BeanUtil.copyProperties(post,postState);
+        BeanUtil.copyProperties(post, postState);
         PostOperationNum postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.LIKE.getValue());
-        if (!Objects.isNull(postOperationNum)){
+        if (!Objects.isNull(postOperationNum)) {
             postState.setLike(true);
         }
         postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.DISLIKE.getValue());
-        if (!Objects.isNull(postOperationNum)){
+        if (!Objects.isNull(postOperationNum)) {
             postState.setDisLike(true);
         }
         postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.SHARE.getValue());
-        if (!Objects.isNull(postOperationNum)){
+        if (!Objects.isNull(postOperationNum)) {
             postState.setShare(true);
         }
         postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.COIN.getValue());
-        if (!Objects.isNull(postOperationNum)){
+        if (!Objects.isNull(postOperationNum)) {
             postState.setCoin(true);
         }
         postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.COLLECT.getValue());
-        if (!Objects.isNull(postOperationNum)){
+        if (!Objects.isNull(postOperationNum)) {
             postState.setCollect(true);
         }
         return new Result(postState);
