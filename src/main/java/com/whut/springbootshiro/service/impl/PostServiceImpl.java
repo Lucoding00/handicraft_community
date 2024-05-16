@@ -15,6 +15,7 @@ import com.whut.springbootshiro.mapper.UserMapper;
 import com.whut.springbootshiro.mapper.UserPostRelMapper;
 import com.whut.springbootshiro.model.Post;
 import com.whut.springbootshiro.model.PostOperationNum;
+import com.whut.springbootshiro.model.PostState;
 import com.whut.springbootshiro.model.UserPostRel;
 import com.whut.springbootshiro.query.ReviewQuery;
 import com.whut.springbootshiro.service.PostService;
@@ -138,27 +139,31 @@ public class PostServiceImpl implements PostService {
         Post post = postMapper.selectByPrimaryKey(postId);
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
         Integer userId = currentUser.getId();
-        PostOperationNum postOperationNum = postOperationNumMapper.selectByUserIdAndPostId(userId, postId);
+        PostOperationNum postOperationNumUp = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId,PostOperationEnum.LIKE.getValue());
+        PostOperationNum postOperationNumDown = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId,PostOperationEnum.DISLIKE.getValue());
         // 无点赞
-        if (Objects.isNull(postOperationNum)) {
+        if (Objects.isNull(postOperationNumUp)
+                && Objects.isNull(postOperationNumDown) ) {
             PostOperationNum insertNum = new PostOperationNum();
             insertNum.setOperationType(PostOperationEnum.LIKE.getValue());
             insertNum.setUserId(userId);
             insertNum.setPostId(postId);
+            insertNum.setCreateTime(new Date());
             postOperationNumMapper.insertSelective(insertNum);
             Integer likeNum = post.getLikeNum();
             post.setLikeNum((Objects.isNull(likeNum) ? 0 : likeNum) + 1);
             postMapper.updateByPrimaryKeySelective(post);
             return new Result(CodeMsg.SUCCESS);
-        } else if (PostOperationEnum.LIKE.getValue().equals(postOperationNum.getOperationType())) { // 点赞了
+        } else if (!Objects.isNull(postOperationNumUp)
+                && Objects.isNull(postOperationNumDown)) { // 点赞了
             Integer likeNum = post.getLikeNum();
             post.setLikeNum((Objects.isNull(likeNum) ? 0 : likeNum) - 1);
             postMapper.updateByPrimaryKeySelective(post);
-            postOperationNumMapper.deleteByPrimaryKey(postOperationNum.getId());
+            postOperationNumMapper.deleteByPrimaryKey(postOperationNumUp.getId());
             return new Result(CodeMsg.SUCCESS);
         } else {
-            postOperationNum.setOperationType(PostOperationEnum.LIKE.getValue());
-            postOperationNumMapper.updateByPrimaryKeySelective(postOperationNum);
+            postOperationNumDown.setOperationType(PostOperationEnum.LIKE.getValue());
+            postOperationNumMapper.updateByPrimaryKeySelective(postOperationNumDown);
             Integer likeNum = post.getLikeNum();
             Integer dislikeNum = post.getDisLikeNum();
             post.setLikeNum((Objects.isNull(likeNum) ? 0 : likeNum) + 1);
@@ -173,27 +178,32 @@ public class PostServiceImpl implements PostService {
         Post post = postMapper.selectByPrimaryKey(postId);
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
         Integer userId = currentUser.getId();
-        PostOperationNum postOperationNum = postOperationNumMapper.selectByUserIdAndPostId(userId, postId);
+        PostOperationNum postOperationNumUp = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId,PostOperationEnum.LIKE.getValue());
+        PostOperationNum postOperationNumDown = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId,PostOperationEnum.DISLIKE.getValue());
+
         // 无点赞
-        if (Objects.isNull(postOperationNum)) {
+        if (Objects.isNull(postOperationNumUp)
+                && Objects.isNull(postOperationNumDown)) {
             PostOperationNum insertNum = new PostOperationNum();
             insertNum.setOperationType(PostOperationEnum.DISLIKE.getValue());
             insertNum.setUserId(userId);
             insertNum.setPostId(postId);
+            insertNum.setCreateTime(new Date());
             postOperationNumMapper.insertSelective(insertNum);
             Integer disLikeNum = post.getDisLikeNum();
             post.setDisLikeNum((Objects.isNull(disLikeNum) ? 0 : disLikeNum) + 1);
             postMapper.updateByPrimaryKeySelective(post);
             return new Result(CodeMsg.SUCCESS);
-        } else if (PostOperationEnum.DISLIKE.getValue().equals(postOperationNum.getOperationType())) { // 点赞了
+        } else if (!Objects.isNull(postOperationNumDown)
+                && Objects.isNull(postOperationNumUp)) { // 点赞了
             Integer disLikeNum = post.getDisLikeNum();
             post.setDisLikeNum((Objects.isNull(disLikeNum) ? 0 : disLikeNum) - 1);
             postMapper.updateByPrimaryKeySelective(post);
-            postOperationNumMapper.deleteByPrimaryKey(postOperationNum.getId());
+            postOperationNumMapper.deleteByPrimaryKey(postOperationNumDown.getId());
             return new Result(CodeMsg.SUCCESS);
         } else {
-            postOperationNum.setOperationType(PostOperationEnum.DISLIKE.getValue());
-            postOperationNumMapper.updateByPrimaryKeySelective(postOperationNum);
+            postOperationNumUp.setOperationType(PostOperationEnum.DISLIKE.getValue());
+            postOperationNumMapper.updateByPrimaryKeySelective(postOperationNumUp);
             Integer likeNum = post.getLikeNum();
             Integer dislikeNum = post.getDisLikeNum();
             post.setLikeNum((Objects.isNull(likeNum) ? 0 : likeNum) - 1);
@@ -314,5 +324,36 @@ public class PostServiceImpl implements PostService {
 
         // 判断时间差是否小于5分钟
         return Math.abs(diffMinutes) < 5;
+    }
+
+
+    @Override
+    public Result getPost(Integer postId) {
+        Post post = postMapper.selectByPrimaryKey(postId);
+        ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
+        Integer currentUserId = currentUser.getId();
+        PostState postState = new PostState();
+        BeanUtil.copyProperties(post,postState);
+        PostOperationNum postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.LIKE.getValue());
+        if (!Objects.isNull(postOperationNum)){
+            postState.setLike(true);
+        }
+        postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.DISLIKE.getValue());
+        if (!Objects.isNull(postOperationNum)){
+            postState.setDisLike(true);
+        }
+        postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.SHARE.getValue());
+        if (!Objects.isNull(postOperationNum)){
+            postState.setShare(true);
+        }
+        postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.COIN.getValue());
+        if (!Objects.isNull(postOperationNum)){
+            postState.setCoin(true);
+        }
+        postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.COLLECT.getValue());
+        if (!Objects.isNull(postOperationNum)){
+            postState.setCollect(true);
+        }
+        return new Result(postState);
     }
 }

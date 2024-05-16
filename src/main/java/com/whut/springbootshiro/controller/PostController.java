@@ -155,4 +155,14 @@ public class PostController {
         return postService.lookPost(postId);
     }
 
+    /**
+     * 获取到帖子的一些状态
+     *
+     * @param postId 帖子id
+     * @return 返回值
+     */
+    @PostMapping("getPost")
+    public Object getPost(Integer postId) {
+        return postService.getPost(postId);
+    }
 }
