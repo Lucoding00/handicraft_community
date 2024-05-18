@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
-    @Resource
+    @Resource(name = "verCode")
     private Map<String, String> verCodeMap;
 
 

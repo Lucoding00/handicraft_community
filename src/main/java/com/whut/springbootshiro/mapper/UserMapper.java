@@ -30,4 +30,6 @@ public interface UserMapper {
     int updateCoinNum(Integer userId, int coinNum);
 
     User selectByCondition(String condition, String value);
+
+    List<User> selectListByRole(String roleName);
 }

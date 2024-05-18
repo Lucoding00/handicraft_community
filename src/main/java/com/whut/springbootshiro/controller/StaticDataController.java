@@ -31,4 +31,14 @@ public class StaticDataController {
     public Object newAndHot(StaticNewAndHotForm form) {
         return staticDataService.newAndHot(form);
     }
+
+    /**
+     * 基于用户行为来进行协同过滤推荐
+     *
+     * @return 结构体数据
+     */
+    @PostMapping("recommendation")
+    public Object recommendation() {
+        return staticDataService.recommendation();
+    }
 }

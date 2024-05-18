@@ -11,4 +11,6 @@ import com.whut.springbootshiro.form.StaticNewAndHotForm;
  */
 public interface StaticDataService {
     Result newAndHot(StaticNewAndHotForm form);
+
+    Result recommendation();
 }

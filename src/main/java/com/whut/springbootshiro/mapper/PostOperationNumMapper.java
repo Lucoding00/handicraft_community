@@ -2,6 +2,8 @@ package com.whut.springbootshiro.mapper;
 
 import com.whut.springbootshiro.model.PostOperationNum;
 
+import java.util.List;
+
 public interface PostOperationNumMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -20,4 +22,6 @@ public interface PostOperationNumMapper {
     PostOperationNum selectByUserIdAndPostIdAndStatus(Integer userId, Integer postId, String status);
 
     PostOperationNum selectLastLook(Integer userId, Integer postId);
+
+    List<PostOperationNum> selectList();
 }

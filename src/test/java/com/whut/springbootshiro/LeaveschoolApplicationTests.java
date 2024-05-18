@@ -8,6 +8,7 @@ class LeaveschoolApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("编写单元测试");
     }
 
 }
