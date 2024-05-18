@@ -119,6 +119,27 @@
         ) desc
         limit 0 , #{hotNum}
     </select>
+    <select id="selectListByIds" resultType="com.whut.springbootshiro.vo.PostVo">
+        select
+        a.id,
+        a.title,
+        a.cover,
+        a.video_url,
+        a.tags,
+        a.create_time,
+        a.content,
+        a.update_time,
+        c.username as username,
+        c.id as userId
+        from post as a
+        left join user_post_rel b on a.id = b.post_id
+        left join `user` as c on b.user_id = c.id
+        where a.status = 'agree'
+        and a.id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from post
     where id = #{id,jdbcType=INTEGER}

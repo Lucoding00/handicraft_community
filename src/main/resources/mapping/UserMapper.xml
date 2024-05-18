@@ -44,7 +44,7 @@
   </select>
   <select id="selectListByRole" resultType="com.whut.springbootshiro.model.User">
     select * from `user`
-    where role_name=${roleName}
+    where role_name=#{oleName}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from `user`
