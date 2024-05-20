@@ -19,6 +19,31 @@
     from personal_message
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectRecipientId" resultType="com.whut.springbootshiro.model.PersonalMessage">
+    select * from personal_message
+    where (send_user_id = #{userId} and recipient_id = #{recipientId})
+    or (send_user_id = #{recipientId} and recipient_id = #{userId})
+    order by send_time asc
+  </select>
+  <select id="getMessageUserList" resultType="com.whut.springbootshiro.model.PersonalMessage">
+    SELECT m1.*
+    FROM personal_message m1
+    INNER JOIN (
+        SELECT
+            CASE
+                WHEN send_user_id = #{id} THEN recipient_id
+                ELSE send_user_id
+            END AS other_user_id,
+            MAX(send_time) AS max_send_time
+        FROM personal_message
+        WHERE send_user_id = #{id}  OR recipient_id = #{id}
+        GROUP BY other_user_id
+    ) m2 ON (
+        m1.send_user_id = #{id}  AND m1.recipient_id = m2.other_user_id
+        OR m1.recipient_id = #{id}  AND m1.send_user_id = m2.other_user_id
+    ) AND m1.send_time = m2.max_send_time;
+    order by send_time desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from personal_message
     where id = #{id,jdbcType=INTEGER}
@@ -113,5 +138,14 @@
       recipient_id = #{recipientId,jdbcType=INTEGER},
       receive_time = #{receiveTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="batchReceive">
+    update personal_message
+    set is_read = 'Y',
+    receive_time = Now()
+    where id in
+    <foreach item="item" index="index" collection="$array" open="(" separator="," close=")">
+      #{item}
+    </foreach>
   </update>
 </mapper>

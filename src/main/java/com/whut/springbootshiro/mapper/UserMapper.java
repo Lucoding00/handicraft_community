@@ -4,6 +4,7 @@ import com.whut.springbootshiro.model.User;
 import com.whut.springbootshiro.query.UserAdminQuery;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface UserMapper {
@@ -32,4 +33,6 @@ public interface UserMapper {
     User selectByCondition(String condition, String value);
 
     List<User> selectListByRole(String roleName);
+
+    List<User> selectUserListByIds(List<Integer> userSet);
 }

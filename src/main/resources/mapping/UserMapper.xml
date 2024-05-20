@@ -46,6 +46,13 @@
     select * from `user`
     where role_name=#{oleName}
   </select>
+  <select id="selectUserListByIds" resultType="com.whut.springbootshiro.model.User">
+    select * from `user`
+    where id in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from `user`
     where id = #{id,jdbcType=INTEGER}
