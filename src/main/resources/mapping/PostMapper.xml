@@ -7,6 +7,7 @@
         <result column="cover" property="cover" jdbcType="VARCHAR"/>
         <result column="video_url" property="videoUrl" jdbcType="VARCHAR"/>
         <result column="tags" property="tags" jdbcType="VARCHAR"/>
+        <result column="category" property="category" jdbcType="VARCHAR"/>
         <result column="look_num" property="lookNum" jdbcType="INTEGER"/>
         <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
         <result column="like_num" property="likeNum" jdbcType="INTEGER"/>
@@ -37,7 +38,7 @@
 
     <sql id="Base_Column_List">
     id, title, cover, video_url, tags, look_num, comment_num, like_num, coin_num, collect_num, 
-    share_num, status, create_time, update_time,dislike_num
+    share_num, status, create_time, update_time,dislike_num,category
   </sql>
     <sql id="Blob_Column_List">
     content
@@ -57,6 +58,7 @@
         a.cover,
         a.video_url,
         a.tags,
+        a.category,
         a.create_time,
         a.content,
         a.update_time,
@@ -82,6 +84,7 @@
         a.cover,
         a.video_url,
         a.tags,
+        a.category,
         a.create_time,
         a.content,
         a.update_time,
@@ -100,6 +103,7 @@
         a.cover,
         a.video_url,
         a.tags,
+        a.category,
         a.create_time,
         a.content,
         a.update_time,
@@ -126,6 +130,7 @@
         a.cover,
         a.video_url,
         a.tags,
+        a.category,
         a.create_time,
         a.content,
         a.update_time,
@@ -146,13 +151,13 @@
   </delete>
     <insert id="insert" parameterType="com.whut.springbootshiro.model.Post">
     insert into post (id, title, cover, 
-      video_url, tags, look_num, 
+      video_url, tags,category, look_num,
       comment_num, like_num,dislike_num, coin_num,
       collect_num, share_num, status, 
       create_time, update_time, content
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, 
-      #{videoUrl,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{lookNum,jdbcType=INTEGER}, 
+      #{videoUrl,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR},#{category,jdbcType=VARCHAR}, #{lookNum,jdbcType=INTEGER},
       #{commentNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER},#{disLikeNum,jdbcType=INTEGER}, #{coinNum,jdbcType=INTEGER},
       #{collectNum,jdbcType=INTEGER}, #{shareNum,jdbcType=INTEGER}, #{status,jdbcType=CHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
@@ -176,6 +181,9 @@
             </if>
             <if test="tags != null">
                 tags,
+            </if>
+            <if test="category != null">
+                category,
             </if>
             <if test="lookNum != null">
                 look_num,
@@ -227,6 +235,9 @@
             <if test="tags != null">
                 #{tags,jdbcType=VARCHAR},
             </if>
+            <if test="category != null">
+                #{category,jdbcType=VARCHAR},
+            </if>
             <if test="lookNum != null">
                 #{lookNum,jdbcType=INTEGER},
             </if>
@@ -277,6 +288,9 @@
             <if test="tags != null">
                 tags = #{tags,jdbcType=VARCHAR},
             </if>
+            <if test="category != null">
+                category = #{category,jdbcType=VARCHAR},
+            </if>
             <if test="lookNum != null">
                 look_num = #{lookNum,jdbcType=INTEGER},
             </if>
@@ -319,6 +333,7 @@
       cover = #{cover,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
       tags = #{tags,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
       look_num = #{lookNum,jdbcType=INTEGER},
       comment_num = #{commentNum,jdbcType=INTEGER},
       like_num = #{likeNum,jdbcType=INTEGER},
@@ -338,6 +353,7 @@
       cover = #{cover,jdbcType=VARCHAR},
       video_url = #{videoUrl,jdbcType=VARCHAR},
       tags = #{tags,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
       look_num = #{lookNum,jdbcType=INTEGER},
       comment_num = #{commentNum,jdbcType=INTEGER},
       like_num = #{likeNum,jdbcType=INTEGER},

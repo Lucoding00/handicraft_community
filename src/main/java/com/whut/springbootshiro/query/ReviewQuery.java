@@ -13,4 +13,6 @@ public class ReviewQuery extends Query {
     private String status;
 
     private String userId;
+
+    private String category;
 }
