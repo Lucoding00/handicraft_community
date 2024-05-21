@@ -4,6 +4,7 @@ import com.whut.springbootshiro.form.PostForm;
 import com.whut.springbootshiro.model.PersonalMessage;
 import com.whut.springbootshiro.service.PersonMessageService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,7 +51,7 @@ public class PersonMessageController {
      * @return 响应体
      */
     @PostMapping("/batchReceive")
-    public Object batchReceive(List<Integer> messageIds) {
+    public Object batchReceive(@RequestBody  List<Integer> messageIds) {
         return personMessageService.batchReceive(messageIds);
     }
 

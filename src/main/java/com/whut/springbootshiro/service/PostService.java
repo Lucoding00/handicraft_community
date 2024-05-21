@@ -31,4 +31,6 @@ public interface PostService {
     Result lookPost(Integer postId);
 
     Result getPost(Integer postId);
+
+    Result attention(Integer postUserId);
 }

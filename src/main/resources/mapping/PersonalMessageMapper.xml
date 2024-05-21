@@ -41,7 +41,7 @@
     ) m2 ON (
         m1.send_user_id = #{id}  AND m1.recipient_id = m2.other_user_id
         OR m1.recipient_id = #{id}  AND m1.send_user_id = m2.other_user_id
-    ) AND m1.send_time = m2.max_send_time;
+    ) AND m1.send_time = m2.max_send_time
     order by send_time desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -141,10 +141,10 @@
   </update>
   <update id="batchReceive">
     update personal_message
-    set is_read = 'Y',
+    set is_read = 1,
     receive_time = Now()
     where id in
-    <foreach item="item" index="index" collection="$array" open="(" separator="," close=")">
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
       #{item}
     </foreach>
   </update>

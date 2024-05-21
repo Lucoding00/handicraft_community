@@ -14,4 +14,6 @@ public interface FollowerMapper {
     int updateByPrimaryKeySelective(Follower record);
 
     int updateByPrimaryKey(Follower record);
+
+    Follower selectByPostIdAndFollower(Integer follower, Integer poster);
 }

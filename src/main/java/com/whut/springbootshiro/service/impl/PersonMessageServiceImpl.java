@@ -38,6 +38,8 @@ public class PersonMessageServiceImpl implements PersonMessageService {
 
     @Override
     public Result send(PersonalMessage personalMessage) {
+        ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
+        personalMessage.setSendUserId(currentUser.getId());
         personalMessage.setSendTime(new Date());
         personalMessage.setIsRead(false);
         personalMessageMapper.insertSelective(personalMessage);
@@ -49,6 +51,15 @@ public class PersonMessageServiceImpl implements PersonMessageService {
     public Result getUserMessageList(Integer recipientId) {
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
         List<PersonalMessage> list = personalMessageMapper.selectRecipientId(currentUser.getId(), recipientId);
+        User curUser = userMapper.selectByPrimaryKey(currentUser.getId());
+        User receiveUser = userMapper.selectByPrimaryKey(recipientId);
+        Map<Integer, User> userMap = new HashMap<>();
+        userMap.put(currentUser.getId(), curUser);
+        userMap.put(recipientId, receiveUser);
+        for (PersonalMessage personalMessage : list) {
+            personalMessage.setSendUser(userMap.get(personalMessage.getSendUserId()));
+            personalMessage.setReceiveUser(userMap.get(personalMessage.getRecipientId()));
+        }
         return new Result(list);
     }
 
@@ -84,6 +95,7 @@ public class PersonMessageServiceImpl implements PersonMessageService {
             MessageUserListVo messageUserListVo = new MessageUserListVo();
             messageUserListVo.setUser(integerUserHashMap.get(userId));
             messageUserListVo.setLastMessage(lastMessage.get(userId));
+            messageUserListVos.add(messageUserListVo);
         }
         return new Result(messageUserListVos);
     }

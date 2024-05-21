@@ -8,14 +8,17 @@ import com.whut.springbootshiro.common.Result;
 import com.whut.springbootshiro.eunm.PostOperationEnum;
 import com.whut.springbootshiro.eunm.PostStatusEnum;
 import com.whut.springbootshiro.form.PostForm;
+import com.whut.springbootshiro.mapper.FollowerMapper;
 import com.whut.springbootshiro.mapper.PostAttachmentMapper;
 import com.whut.springbootshiro.mapper.PostMapper;
 import com.whut.springbootshiro.mapper.PostOperationNumMapper;
 import com.whut.springbootshiro.mapper.UserMapper;
 import com.whut.springbootshiro.mapper.UserPostRelMapper;
+import com.whut.springbootshiro.model.Follower;
 import com.whut.springbootshiro.model.Post;
 import com.whut.springbootshiro.model.PostOperationNum;
 import com.whut.springbootshiro.model.PostState;
+import com.whut.springbootshiro.model.User;
 import com.whut.springbootshiro.model.UserPostRel;
 import com.whut.springbootshiro.query.ReviewQuery;
 import com.whut.springbootshiro.service.PostService;
@@ -32,6 +35,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 发帖管理
@@ -56,6 +60,9 @@ public class PostServiceImpl implements PostService {
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private FollowerMapper followerMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -335,27 +342,45 @@ public class PostServiceImpl implements PostService {
         ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
         Integer currentUserId = currentUser.getId();
         PostState postState = new PostState();
+        UserPostRel userPostRel = userPostRelMapper.selectByPostId(postId);
+        User user = userMapper.selectByPrimaryKey(userPostRel.getUserId());
+        postState.setCreateUser(user);
         BeanUtil.copyProperties(post, postState);
-        PostOperationNum postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.LIKE.getValue());
-        if (!Objects.isNull(postOperationNum)) {
+        Follower follower = followerMapper.selectByPostIdAndFollower(currentUserId, user.getId());
+        if (!Objects.isNull(follower)) {
+            postState.setFollow(true);
+        }
+        List<PostOperationNum> postOperationNums = postOperationNumMapper.selectByUserIdAndPostId(currentUserId, postId);
+        List<String> collectString = postOperationNums.stream().map(PostOperationNum::getOperationType).collect(Collectors.toList());
+        if (collectString.contains(PostOperationEnum.LIKE.getValue())) {
             postState.setLike(true);
-        }
-        postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.DISLIKE.getValue());
-        if (!Objects.isNull(postOperationNum)) {
+        } else if (collectString.contains(PostOperationEnum.DISLIKE.getValue())) {
             postState.setDisLike(true);
-        }
-        postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.SHARE.getValue());
-        if (!Objects.isNull(postOperationNum)) {
+        } else if (collectString.contains(PostOperationEnum.SHARE.getValue())) {
             postState.setShare(true);
-        }
-        postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.COIN.getValue());
-        if (!Objects.isNull(postOperationNum)) {
+        } else if (collectString.contains(PostOperationEnum.COIN.getValue())) {
             postState.setCoin(true);
-        }
-        postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(currentUserId, postId, PostOperationEnum.COLLECT.getValue());
-        if (!Objects.isNull(postOperationNum)) {
+        } else if (collectString.contains(PostOperationEnum.COLLECT.getValue())) {
             postState.setCollect(true);
         }
+
         return new Result(postState);
+    }
+
+    @Override
+    public Result attention(Integer postUserId) {
+        ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
+        Integer currentUserId = currentUser.getId();
+        Follower follower = followerMapper.selectByPostIdAndFollower(currentUserId, postUserId);
+        if (!Objects.isNull(follower)) {
+            followerMapper.deleteByPrimaryKey(follower.getId());// 取消关注
+        } else {
+            // 关注
+            Follower follower1 = new Follower();
+            follower1.setFans(currentUserId);
+            follower1.setPoster(postUserId);
+            followerMapper.insertSelective(follower1);
+        }
+        return new Result(CodeMsg.SUCCESS);
     }
 }

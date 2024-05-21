@@ -14,4 +14,6 @@ public interface UserPostRelMapper {
     int updateByPrimaryKeySelective(UserPostRel record);
 
     int updateByPrimaryKey(UserPostRel record);
+
+    UserPostRel selectByPostId(Integer postId);
 }

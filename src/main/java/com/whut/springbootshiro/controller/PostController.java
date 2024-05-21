@@ -165,4 +165,15 @@ public class PostController {
     public Object getPost(Integer postId) {
         return postService.getPost(postId);
     }
+
+    /**
+     * 关注
+     *
+     * @param postUserId 帖子用户id
+     * @return 返回值
+     */
+    @PostMapping("/attention")
+    public Object attention(Integer postUserId) {
+        return postService.attention(postUserId);
+    }
 }

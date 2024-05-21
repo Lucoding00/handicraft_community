@@ -17,4 +17,8 @@ public class PostState extends Post {
     private boolean isCollect;
 
     private boolean isShare;
+
+    private  User createUser;
+
+    private boolean isFollow;
 }

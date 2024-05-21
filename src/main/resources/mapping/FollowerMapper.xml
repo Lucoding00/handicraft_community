@@ -10,10 +10,15 @@
     id, poster, fans
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from follower
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPostIdAndFollower" resultType="com.whut.springbootshiro.model.Follower">
+    select * from follower
+    where poster=#{poster}
+    and fans=#{follower}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from follower

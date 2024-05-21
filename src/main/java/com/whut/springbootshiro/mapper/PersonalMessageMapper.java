@@ -1,6 +1,7 @@
 package com.whut.springbootshiro.mapper;
 
 import com.whut.springbootshiro.model.PersonalMessage;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface PersonalMessageMapper {
 
     List<PersonalMessage> selectRecipientId(Integer userId, Integer recipientId);
 
-    int batchReceive(List<Integer> messageIds);
+    int batchReceive(@Param("list") List<Integer> messageIds);
 
     List<PersonalMessage> getMessageUserList(Integer id);
 }
