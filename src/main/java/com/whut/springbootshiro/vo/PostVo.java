@@ -26,6 +26,8 @@ public class PostVo {
 
     private String tags;
 
+    private String category;
+
     private String userId;
 
     private String username;

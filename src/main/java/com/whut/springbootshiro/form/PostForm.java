@@ -18,6 +18,8 @@ public class PostForm {
 
     private String cover;
 
+    private String category;
+
     private String videoUrl;
 
     private String tags;
