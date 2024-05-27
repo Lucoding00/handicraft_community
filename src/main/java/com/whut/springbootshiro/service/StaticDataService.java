@@ -1,7 +1,8 @@
 package com.whut.springbootshiro.service;
 
 import com.whut.springbootshiro.common.Result;
-import com.whut.springbootshiro.form.StaticNewAndHotForm;
+import com.whut.springbootshiro.form.StaticHot;
+import com.whut.springbootshiro.form.StaticNew;
 
 /**
  * 静态数据接口
@@ -10,7 +11,10 @@ import com.whut.springbootshiro.form.StaticNewAndHotForm;
  * @since  2024-05-08 23:48
  */
 public interface StaticDataService {
-    Result newAndHot(StaticNewAndHotForm form);
 
     Result recommendation();
+
+    Object newPosts(StaticNew form);
+
+    Object hotPosts(StaticHot form);
 }

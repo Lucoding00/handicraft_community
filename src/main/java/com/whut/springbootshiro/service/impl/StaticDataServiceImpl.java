@@ -1,11 +1,10 @@
 package com.whut.springbootshiro.service.impl;
 
 import com.whut.springbootshiro.common.Result;
-import com.whut.springbootshiro.form.StaticNewAndHotForm;
+import com.whut.springbootshiro.form.StaticHot;
+import com.whut.springbootshiro.form.StaticNew;
 import com.whut.springbootshiro.mapper.PostMapper;
 import com.whut.springbootshiro.mapper.UserMapper;
-import com.whut.springbootshiro.model.User;
-import com.whut.springbootshiro.query.UserAdminQuery;
 import com.whut.springbootshiro.service.StaticDataService;
 import com.whut.springbootshiro.vo.PostVo;
 import org.springframework.stereotype.Service;
@@ -26,30 +25,26 @@ public class StaticDataServiceImpl implements StaticDataService {
     @Resource
     private PostMapper postMapper;
 
-    @Resource
-    private UserMapper userMapper;
+    @Override
+    public Result recommendation() {
+
+        return null;
+    }
+
 
     @Override
-    public Result newAndHot(StaticNewAndHotForm form) {
-        List<PostVo> newLists = postMapper.selectNewList(form.getNewNum());
-        List<PostVo> hotLists = postMapper.selectHotList(form.getHotNum());
+    public Object newPosts(StaticNew form) {
+        List<PostVo> newLists = postMapper.selectNewList(form);
         HashMap<String, Object> data = new HashMap<>();
         data.put("new",newLists);
-        data.put("hot",hotLists);
         return new Result(data);
     }
 
     @Override
-    public Result recommendation() {
-
-
-
-
-
-
-
-
-
-        return null;
+    public Object hotPosts(StaticHot form) {
+        List<PostVo> newLists = postMapper.selectHotList(form);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("hot",newLists);
+        return new Result(data);
     }
 }

@@ -93,8 +93,9 @@
         from post as a
         left join user_post_rel b on a.id = b.post_id
         left join `user` as c on b.user_id = c.id
+        where a.category = #{form.category}
         order by a.create_time desc
-        limit 0 , #{newNum}
+        limit 0 , #{form.newNum}
     </select>
     <select id="selectHotList" resultType="com.whut.springbootshiro.vo.PostVo">
         select
@@ -112,6 +113,7 @@
         from post as a
         left join user_post_rel b on a.id = b.post_id
         left join `user` as c on b.user_id = c.id
+        where a.category=#{form.category}
         order by (
         COALESCE(a.look_num, 0) * 0.1
         + COALESCE(a.comment_num, 0) * 0.15
@@ -121,7 +123,7 @@
         + COALESCE(a.collect_num, 0) * 0.15
         + COALESCE(a.share_num, 0) * 0.15
         ) desc
-        limit 0 , #{hotNum}
+        limit 0 , #{form.hotNum}
     </select>
     <select id="selectListByIds" resultType="com.whut.springbootshiro.vo.PostVo">
         select

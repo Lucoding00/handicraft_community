@@ -9,14 +9,14 @@ import lombok.Data;
  * @since 2024-05-09 0:13
  */
 @Data
-public class StaticNewAndHotForm {
+public class StaticNew {
     /**
      * 最新
      */
     private int newNum;
 
     /**
-     * 最热
+     * 分类
      */
-    private int hotNum;
+    private String category;
 }

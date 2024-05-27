@@ -1,5 +1,7 @@
 package com.whut.springbootshiro.mapper;
 
+import com.whut.springbootshiro.form.StaticHot;
+import com.whut.springbootshiro.form.StaticNew;
 import com.whut.springbootshiro.model.Post;
 import com.whut.springbootshiro.query.ReviewQuery;
 import com.whut.springbootshiro.vo.PostVo;
@@ -24,9 +26,9 @@ public interface PostMapper {
 
     List<PostVo> selectList(ReviewQuery reviewQuery);
 
-    List<PostVo> selectNewList(int newNum);
+    List<PostVo> selectNewList(@Param("form") StaticNew form);
 
-    List<PostVo> selectHotList(int hotNum);
+    List<PostVo> selectHotList(@Param("form") StaticHot form);
 
     List<PostVo> selectListByIds(@Param("list") List<Integer> predictPostIds);
 }
