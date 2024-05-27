@@ -231,7 +231,6 @@ public class PostServiceImpl implements PostService {
         }
         Integer userId = currentUser.getId();
         PostOperationNum postOperationNum = postOperationNumMapper.selectByUserIdAndPostIdAndStatus(userId, postId, PostOperationEnum.COIN.getValue());
-        // 无收藏
         if (Objects.isNull(postOperationNum)) {
             PostOperationNum insertNum = new PostOperationNum();
             insertNum.setOperationType(PostOperationEnum.COIN.getValue());
@@ -243,6 +242,11 @@ public class PostServiceImpl implements PostService {
             post.setCoinNum((Objects.isNull(coinNum) ? 0 : coinNum) + 2);
             postMapper.updateByPrimaryKeySelective(post);
             userMapper.updateCoinNum(userId, currentUser.getCoinNum() - 2);
+            UserPostRel userPostRel = userPostRelMapper.selectByPostId(postId);
+            Integer userId1 = userPostRel.getUserId();
+            User user = userMapper.selectByPrimaryKey(userId1);
+            user.setCoinNum(user.getCoinNum() + 2);
+            userMapper.updateByPrimaryKeySelective(user);
             return new Result(CodeMsg.SUCCESS);
         } else {
             return new Result(CodeMsg.ERROR);
