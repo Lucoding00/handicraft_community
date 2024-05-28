@@ -41,4 +41,8 @@ public interface UserService {
     Result page(UserAdminQuery userAdminQuery);
 
     Result recharge(int userId, int coinNum);
+
+    Result concernList();
+
+    Result cancelConcern(int postUserId, int fansId);
 }

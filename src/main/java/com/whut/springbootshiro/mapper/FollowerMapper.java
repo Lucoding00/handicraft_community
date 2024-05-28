@@ -2,6 +2,8 @@ package com.whut.springbootshiro.mapper;
 
 import com.whut.springbootshiro.model.Follower;
 
+import java.util.List;
+
 public interface FollowerMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface FollowerMapper {
     int updateByPrimaryKey(Follower record);
 
     Follower selectByPostIdAndFollower(Integer follower, Integer poster);
+
+    List<Integer> selectFansByPostId(Integer currentUserId);
 }

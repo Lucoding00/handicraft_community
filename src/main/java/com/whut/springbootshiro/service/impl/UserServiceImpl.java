@@ -1,6 +1,7 @@
 package com.whut.springbootshiro.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -14,11 +15,14 @@ import com.whut.springbootshiro.form.UserAdminForm;
 import com.whut.springbootshiro.form.UserInfoForm;
 import com.whut.springbootshiro.jwt.JWTToken;
 import com.whut.springbootshiro.jwt.JWTUtil;
+import com.whut.springbootshiro.mapper.FollowerMapper;
 import com.whut.springbootshiro.mapper.UserMapper;
+import com.whut.springbootshiro.model.Follower;
 import com.whut.springbootshiro.model.User;
 import com.whut.springbootshiro.query.UserAdminQuery;
 import com.whut.springbootshiro.service.UserService;
 import com.whut.springbootshiro.shiro.ActiveUser;
+import com.whut.springbootshiro.util.AuthenticationUserUtil;
 import com.whut.springbootshiro.util.DateUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Md5Hash;
@@ -26,8 +30,10 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -307,5 +313,28 @@ public class UserServiceImpl implements UserService {
         } else {
             return new Result(CodeMsg.ERROR);
         }
+    }
+
+    @Resource
+    private FollowerMapper followerMapper;
+
+    @Override
+    public Result concernList() {
+        ActiveUser currentUser = AuthenticationUserUtil.getCurrentUser();
+        Integer currentUserId = currentUser.getId();
+        List<Integer> fanIds = followerMapper.selectFansByPostId(currentUserId);
+        if (CollectionUtil.isEmpty(fanIds)) {
+            return new Result(new ArrayList<>());
+        } else {
+            List<User> userList = userMapper.selectUserListByIds(fanIds);
+            return new Result(userList);
+        }
+    }
+
+    @Override
+    public Result cancelConcern(int postUserId, int fansId) {
+        Follower follower = followerMapper.selectByPostIdAndFollower(fansId, postUserId);
+        followerMapper.deleteByPrimaryKey(follower.getId());
+        return new Result(CodeMsg.SUCCESS);
     }
 }

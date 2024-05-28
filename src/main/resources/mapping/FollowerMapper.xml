@@ -20,6 +20,12 @@
     where poster=#{poster}
     and fans=#{follower}
   </select>
+  <select id="selectFansByPostId" resultType="java.lang.Integer">
+    select distinct fans
+    from follower
+    where poster= #{currentUserId}
+
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from follower
     where id = #{id,jdbcType=INTEGER}

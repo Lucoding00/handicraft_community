@@ -133,12 +133,34 @@ public class UserIdentityController {
     /**
      * 用户充值
      *
-     * @param userId 用户id
+     * @param userId  用户id
      * @param coinNum 充值钱数
      * @return 返回值
      */
     @PostMapping("recharge")
     public Object recharge(int userId, int coinNum) {
         return userService.recharge(userId, coinNum);
+    }
+
+
+    /**
+     * 用户关注列表
+     *
+     * @return 返回值
+     */
+    @PostMapping("concernList")
+    public Object concernList() {
+        return userService.concernList();
+    }
+
+
+    /**
+     * 让对方取消关注
+     *
+     * @return 返回值
+     */
+    @PostMapping("cancelConcern")
+    public Object cancelConcern(int postUserId, int fansId) {
+        return userService.cancelConcern(postUserId, fansId);
     }
 }
