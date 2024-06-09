@@ -10,15 +10,12 @@ import com.whut.springbootshiro.service.PersonMessageService;
 import com.whut.springbootshiro.shiro.ActiveUser;
 import com.whut.springbootshiro.util.AuthenticationUserUtil;
 import com.whut.springbootshiro.vo.MessageUserListVo;
-import org.hibernate.validator.constraints.EAN;
 import org.springframework.stereotype.Service;
-import sun.plugin2.message.Message;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
