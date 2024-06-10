@@ -75,6 +75,9 @@
             <if test="userId != null and userId != ''">
                 and b.user_id = #{userId}
             </if>
+            <if test="category != null and category != ''">
+                and a.category = #{category}
+            </if>
         </where>
     </select>
     <select id="selectNewList" resultMap="BaseResultMapVo">
@@ -97,7 +100,7 @@
         order by a.create_time desc
         limit 0 , #{form.newNum}
     </select>
-    <select id="selectHotList" resultType="com.whut.springbootshiro.vo.PostVo">
+    <select id="selectHotList" resultMap="BaseResultMapVo">
         select
         a.id,
         a.title,
@@ -125,7 +128,7 @@
         ) desc
         limit 0 , #{form.hotNum}
     </select>
-    <select id="selectListByIds" resultType="com.whut.springbootshiro.vo.PostVo">
+    <select id="selectListByIds" resultMap="BaseResultMapVo">
         select
         a.id,
         a.title,

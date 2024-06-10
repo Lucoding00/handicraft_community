@@ -1,6 +1,7 @@
 package com.whut.springbootshiro.service.impl;
 
 import com.whut.springbootshiro.common.Result;
+import com.whut.springbootshiro.config.DataInitConfig;
 import com.whut.springbootshiro.form.StaticHot;
 import com.whut.springbootshiro.form.StaticNew;
 import com.whut.springbootshiro.mapper.PostMapper;
@@ -25,10 +26,13 @@ public class StaticDataServiceImpl implements StaticDataService {
     @Resource
     private PostMapper postMapper;
 
+    @Resource
+    private DataInitConfig dataInitConfig;
+
     @Override
     public Result recommendation() {
-
-        return null;
+        List<DataInitConfig.PredictModel> recommendationData = dataInitConfig.getRecommendationData();
+        return new Result(recommendationData);
     }
 
 
