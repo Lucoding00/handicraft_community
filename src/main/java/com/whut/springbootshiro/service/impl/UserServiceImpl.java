@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
         if (x != null) return x;
         User user = new User();
         BeanUtil.copyProperties(userAdminForm, user);
-        Md5Hash md5Hash1 = new Md5Hash(userAdminForm.getUsername(), Constant.MD5_SALT, 2);
+        Md5Hash md5Hash1 = new Md5Hash(userAdminForm.getPassword(), Constant.MD5_SALT, 2);
         user.setPassword(md5Hash1.toString());
         user.setRoleName(UserRoleEnum.USER.getValue());
         user.setStatus(UserStatusEnum.AVAILABLE.getValue());
